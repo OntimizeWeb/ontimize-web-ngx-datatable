@@ -1,9 +1,9 @@
 import { Component, Inject, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
 
 @Component({
-  selector: 'o-table-cell-editor-boolean',
+  selector: 'o-datatable-cell-editor-string',
   template: '',
   outputs: [
     'onFocus',
@@ -11,16 +11,16 @@ import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.compo
     'onSubmit'
   ]
 })
-export class OTableCellEditorBooleanComponent implements ITableCellEditor {
+export class ODataTableCellEditorStringComponent implements ITableCellEditor {
 
   public onFocus: EventEmitter<any> = new EventEmitter();
   public onBlur: EventEmitter<any> = new EventEmitter();
   public onSubmit: EventEmitter<any> = new EventEmitter();
 
-  protected tableColumn: OTableColumnComponent;
+  protected tableColumn: ODataTableColumnComponent;
   protected insertTableInput: any;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent) {
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent) {
     this.tableColumn = tableColumn;
     this.tableColumn.registerEditor(this);
   }
@@ -30,9 +30,9 @@ export class OTableCellEditorBooleanComponent implements ITableCellEditor {
   }
 
   public getHtml(data: any): string {
-    let html = '<input type="checkbox" ';
-    if (data === true) {
-      html += 'checked ';
+    let html = '<input type="text" ';
+    if (typeof (data) !== 'undefined') {
+      html += 'value="' + data + '" ';
     }
     html += 'onclick="event.stopPropagation();" ondblclick="event.stopPropagation();" />';
     return html;
@@ -83,7 +83,7 @@ export class OTableCellEditorBooleanComponent implements ITableCellEditor {
   public performInsertion(cellElement: any) {
     let input = cellElement.find('input');
     if (input.length > 0) {
-      let newValue = input.prop('checked');
+      let newValue = input.val();
       this.destroy(cellElement);
       this.tableColumn.updateCell(cellElement, newValue);
     }
@@ -109,7 +109,9 @@ export class OTableCellEditorBooleanComponent implements ITableCellEditor {
   public getInsertTableValue(): any {
     let value = undefined;
     if (typeof (this.insertTableInput) !== 'undefined') {
-      value = this.insertTableInput.prop('checked');
+      if (this.insertTableInput.val().length > 0) {
+        value = this.insertTableInput.val();
+      }
     }
     return value;
   }

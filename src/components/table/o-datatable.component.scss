@@ -1,4 +1,4 @@
-.o-table {
+.o-datatable {
 
   width: 100%;
   height: 100%;
@@ -39,7 +39,7 @@
     }
   }
 
-  .o-table-container {
+  .o-datatable-container {
 
     display: block;
     max-width: 100%;
@@ -455,7 +455,7 @@
       margin: 0;
       width: 100%;
       height: 100%;
-      .o-table-scroll {
+      .o-datatable-scroll {
         overflow: auto;
         height: 100%;
       }
@@ -495,7 +495,7 @@
 
       &.small,
       &.medium {
-        .o-table-column.o-table-column-action md-icon {
+        .o-datatable-column.o-datatable-column-action md-icon {
           font-size: 18px;
           line-height: 22px;
         }
@@ -533,15 +533,15 @@
             min-width: 42px;
             outline: none;
 
-            &:last-child:not(.o-table-column-action) {
+            &:last-child:not(.o-datatable-column-action) {
               padding: 0 42px 0 24px !important;
             }
 
-            &:first-child:not(.o-table-column-select-checkbox) {
+            &:first-child:not(.o-datatable-column-select-checkbox) {
               padding: 0 42px 0 54px !important;
             }
 
-            &:first-child.o-table-column-select-checkbox {
+            &:first-child.o-datatable-column-select-checkbox {
               padding:0 12px 0 12px !important
             }
 
@@ -549,11 +549,11 @@
               padding: 0 42px 0 24px !important;
             }
 
-            &:nth-child(n+3):nth-last-child(n+2):not(.o-table-column-action) {
+            &:nth-child(n+3):nth-last-child(n+2):not(.o-datatable-column-action) {
               padding: 0 42px 0 24px !important;
             }
 
-            &.o-table-select-checkbox {
+            &.o-datatable-select-checkbox {
               width: 20px;
               padding: 0 0 0 24px;
             }
@@ -613,11 +613,11 @@
               text-decoration: underline;
             }
 
-            &.o-table-column-action {
+            &.o-datatable-column-action {
               padding: 0 18px 0 18px !important;
             }
 
-            &.o-table-column-action:last-child {
+            &.o-datatable-column-action:last-child {
               padding-right: 24px !important;
             }
 
@@ -701,7 +701,7 @@
 
         td {
 
-          &.o-table-column-centered {
+          &.o-datatable-column-centered {
             text-align: center;
           }
 
@@ -755,19 +755,19 @@
             margin-left: 0px;
           }
 
-          &:last-child:not(.o-table-column-action) {
+          &:last-child:not(.o-datatable-column-action) {
             padding: 0 42px 0 24px !important;
           }
 
-          &:first-child:not(.o-table-column-action):not(.o-table-column-select-checkbox) {
+          &:first-child:not(.o-datatable-column-action):not(.o-datatable-column-select-checkbox) {
             padding: 0 42px 0 54px !important;
           }
 
-          &:nth-child(2):not(.o-table-column-action) {
+          &:nth-child(2):not(.o-datatable-column-action) {
             padding: 0 42px 0 24px !important;
           }
 
-          &:nth-child(n+3):nth-last-child(n+2):not(.o-table-column-action) {
+          &:nth-child(n+3):nth-last-child(n+2):not(.o-datatable-column-action) {
             padding: 0 42px 0 24px !important;
           }
 
@@ -780,41 +780,41 @@
             border-bottom-width: 0px !important;
           }
 
-          &.o-table-column-boolean {
+          &.o-datatable-column-boolean {
             text-align: center;
           }
 
-          &.o-table-column-string {
+          &.o-datatable-column-string {
             text-align: left;
           }
 
-          &.o-table-column-number {
+          &.o-datatable-column-number {
             text-align: right;
           }
 
-          &.o-table-column-date {
+          &.o-datatable-column-date {
             text-align: center;
           }
 
-          &.o-table-column-image {
+          &.o-datatable-column-image {
             text-align: center;
           }
 
-          &.o-table-column-action {
+          &.o-datatable-column-action {
             text-align: center;
             padding: 0px !important;
             &.focus {
               outline: none;
             }
-            .o-table-row-action {
+            .o-datatable-row-action {
               text-transform: uppercase;
               text-decoration: underline;
               line-height: 1;
               width: 100%;
               cursor: pointer;
             }
-            .o-table-row-action-edit-cancel,
-            .o-table-row-action-edit-save {
+            .o-datatable-row-action-edit-cancel,
+            .o-datatable-row-action-edit-save {
               width: 50%;
               font-weight: bold;
               font-size: 26px;
@@ -956,7 +956,7 @@
 
   }
 
-  .o-table-menu-button {
+  .o-datatable-menu-button {
     position:absolute;
     top: 4px;
     // right: 4px;
@@ -1097,7 +1097,7 @@ div.dt-button-background {
 }
 
 
-.o-table .o-table-container table thead tr th.o-table-column-select-checkbox {
+.o-datatable .o-datatable-container table thead tr th.o-datatable-column-select-checkbox {
   &::before,
   &::after {
     content: initial!important;
@@ -1105,10 +1105,10 @@ div.dt-button-background {
 
 }
 
-.o-table .o-table-container table thead tr th,
-.o-table .o-table-container table tbody td {
+.o-datatable .o-datatable-container table thead tr th,
+.o-datatable .o-datatable-container table tbody td {
 
-  &.o-table-column-select-checkbox {
+  &.o-datatable-column-select-checkbox {
 
     &.focus {
       outline: none;
@@ -1440,7 +1440,7 @@ div.dt-button-background {
   }
 }
 
-.o-table {
+.o-datatable {
   table.fixedHeader-floating {
     position: fixed !important;
     z-index: 200;

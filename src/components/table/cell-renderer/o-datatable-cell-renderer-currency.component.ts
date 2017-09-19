@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 
 import {
-  OTableCellRendererRealComponent,
+  ODataTableCellRendererRealComponent,
   DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL
-} from './o-table-cell-renderer-real.component';
+} from './o-datatable-cell-renderer-real.component';
 
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 import { CurrencyService } from 'ontimize-web-ng2';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = [
@@ -21,13 +21,13 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-currency',
+  selector: 'o-datatable-cell-renderer-currency',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY
   ]
 })
-export class OTableCellRendererCurrencyComponent extends OTableCellRendererRealComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRendererRealComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY;
 
@@ -35,7 +35,7 @@ export class OTableCellRendererCurrencyComponent extends OTableCellRendererRealC
   protected currencySymbol: string;
   protected currencySymbolPosition: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     super(tableColumn, injector);
     this.currencyService = this.injector.get(CurrencyService);

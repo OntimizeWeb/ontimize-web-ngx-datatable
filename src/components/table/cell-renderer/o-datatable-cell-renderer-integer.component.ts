@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 import { NumberService, Util } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = [
 
@@ -13,13 +13,13 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-integer',
+  selector: 'o-datatable-cell-renderer-integer',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER
   ]
 })
-export class OTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER;
 
@@ -27,7 +27,7 @@ export class OTableCellRendererIntegerComponent implements OnInit, ITableCellRen
   protected grouping: any;
   protected thousandSeparator: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.numberService = this.injector.get(NumberService);

@@ -1,9 +1,9 @@
 import { Component, Inject, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
 
 @Component({
-  selector: 'o-table-cell-editor-string',
+  selector: 'o-datatable-cell-editor-integer',
   template: '',
   outputs: [
     'onFocus',
@@ -11,16 +11,16 @@ import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.compo
     'onSubmit'
   ]
 })
-export class OTableCellEditorStringComponent implements ITableCellEditor {
+export class ODataTableCellEditorIntegerComponent implements ITableCellEditor {
 
   public onFocus: EventEmitter<any> = new EventEmitter();
   public onBlur: EventEmitter<any> = new EventEmitter();
   public onSubmit: EventEmitter<any> = new EventEmitter();
 
-  protected tableColumn: OTableColumnComponent;
+  protected tableColumn: ODataTableColumnComponent;
   protected insertTableInput: any;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent) {
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent) {
     this.tableColumn = tableColumn;
     this.tableColumn.registerEditor(this);
   }
@@ -30,7 +30,7 @@ export class OTableCellEditorStringComponent implements ITableCellEditor {
   }
 
   public getHtml(data: any): string {
-    let html = '<input type="text" ';
+    let html = '<input type="number" ';
     if (typeof (data) !== 'undefined') {
       html += 'value="' + data + '" ';
     }
@@ -83,7 +83,10 @@ export class OTableCellEditorStringComponent implements ITableCellEditor {
   public performInsertion(cellElement: any) {
     let input = cellElement.find('input');
     if (input.length > 0) {
-      let newValue = input.val();
+      let newValue = parseInt(input.val());
+      if (isNaN(newValue)) {
+        newValue = 0;
+      }
       this.destroy(cellElement);
       this.tableColumn.updateCell(cellElement, newValue);
     }
@@ -109,8 +112,9 @@ export class OTableCellEditorStringComponent implements ITableCellEditor {
   public getInsertTableValue(): any {
     let value = undefined;
     if (typeof (this.insertTableInput) !== 'undefined') {
-      if (this.insertTableInput.val().length > 0) {
-        value = this.insertTableInput.val();
+      value = parseInt(this.insertTableInput.val());
+      if (isNaN(value)) {
+        value = 0;
       }
     }
     return value;

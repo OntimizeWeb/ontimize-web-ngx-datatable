@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, forwardRef } from '@angular/core';
 import { OTranslateService } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = [
 
@@ -21,13 +21,13 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-boolean',
+  selector: 'o-datatable-cell-renderer-boolean',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN
   ]
 })
-export class OTableCellRendererBooleanComponent implements ITableCellRenderer {
+export class ODataTableCellRendererBooleanComponent implements ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN;
 
@@ -38,7 +38,7 @@ export class OTableCellRendererBooleanComponent implements ITableCellRenderer {
   protected falseValue: string;
   protected dataType: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.translateService = this.injector.get(OTranslateService);

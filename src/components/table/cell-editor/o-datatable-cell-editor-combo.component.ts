@@ -1,8 +1,8 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper, OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.component';
-import { OTableComponent } from '../o-table.component';
+import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
+import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
 
@@ -33,7 +33,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
 ];
 
 @Component({
-  selector: 'o-table-cell-editor-combo',
+  selector: 'o-datatable-cell-editor-combo',
   template: '',
   providers: [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
@@ -47,7 +47,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
     'onSubmit'
   ]
 })
-export class OTableCellEditorComboComponent implements OnInit, ITableCellEditor {
+export class ODataTableCellEditorComboComponent implements OnInit, ITableCellEditor {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO;
 
@@ -55,7 +55,7 @@ export class OTableCellEditorComboComponent implements OnInit, ITableCellEditor 
   public onBlur: EventEmitter<any> = new EventEmitter();
   public onSubmit: EventEmitter<any> = new EventEmitter();
 
-  protected tableColumn: OTableColumnComponent;
+  protected tableColumn: ODataTableColumnComponent;
   protected insertTableInput: any;
   protected service: string;
   protected dataService: any;
@@ -71,7 +71,7 @@ export class OTableCellEditorComboComponent implements OnInit, ITableCellEditor 
   protected queryMethod: string;
   protected dataType: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     this.tableColumn = tableColumn;
     this.tableColumn.registerEditor(this);
@@ -117,12 +117,12 @@ export class OTableCellEditorComboComponent implements OnInit, ITableCellEditor 
       }
     }
     if (this.columns) {
-      this.dataColumns = this.columns.split(OTableComponent.COLUMNS_SEPARATOR);
+      this.dataColumns = this.columns.split(ODataTableComponent.COLUMNS_SEPARATOR);
     } else {
       this.dataColumns = [];
     }
     if (this.visibleColumns) {
-      this.dataVisibleColumns = this.visibleColumns.split(OTableComponent.COLUMNS_SEPARATOR);
+      this.dataVisibleColumns = this.visibleColumns.split(ODataTableComponent.COLUMNS_SEPARATOR);
     } else {
       this.dataVisibleColumns = [];
     }
@@ -279,11 +279,11 @@ export class OTableCellEditorComboComponent implements OnInit, ITableCellEditor 
               }
             }
           } else {
-            console.log('[OTableCellEditorComboComponent.init]: error code ' + res.code + ' when querying data');
+            console.log('[ODataTableCellEditorComboComponent.init]: error code ' + res.code + ' when querying data');
           }
         },
         err => {
-          console.log('[OTableCellEditorComboComponent.init]: error', err);
+          console.log('[ODataTableCellEditorComboComponent.init]: error', err);
         }
       );
     }

@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper, MomentService } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellEditor } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
 
 import * as moment from 'moment';
 
@@ -18,7 +18,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE = [
 ];
 
 @Component({
-  selector: 'o-table-cell-editor-date',
+  selector: 'o-datatable-cell-editor-date',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE
@@ -29,7 +29,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE = [
     'onSubmit'
   ]
 })
-export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
+export class ODataTableCellEditorDateComponent implements OnInit, ITableCellEditor {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE = DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE;
 
@@ -44,7 +44,7 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
   public onBlur: EventEmitter<any> = new EventEmitter();
   public onSubmit: EventEmitter<any> = new EventEmitter();
 
-  protected tableColumn: OTableColumnComponent;
+  protected tableColumn: ODataTableColumnComponent;
   protected insertTableInput: any;
   protected momentService: MomentService;
   protected dateModelType: string;
@@ -52,15 +52,15 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
   protected previousValue: any;
   protected rendererFormat: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     this.tableColumn = tableColumn;
     this.momentService = this.injector.get(MomentService);
     this.tableColumn.registerEditor(this);
-    if (typeof (OTableCellEditorDateComponent.datePicker) !== 'undefined') {
-      OTableCellEditorDateComponent.datePicker.datepicker('hide');
+    if (typeof (ODataTableCellEditorDateComponent.datePicker) !== 'undefined') {
+      ODataTableCellEditorDateComponent.datePicker.datepicker('hide');
     }
-    OTableCellEditorDateComponent.datePicker = undefined;
+    ODataTableCellEditorDateComponent.datePicker = undefined;
     this.datePickerFormat = moment.localeData(this.momentService.getLocale())['_longDateFormat']['L'];
     this.datePickerFormat = this.datePickerFormat.toLowerCase().replace(/yyyy/g, 'yy');
     this.datePickerLabels = this.getDatePickerLabels();
@@ -71,10 +71,10 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
 
   public ngOnInit() {
     if (typeof (this.dateModelType) === 'undefined') {
-      this.dateModelType = OTableCellEditorDateComponent.DEFAULT_DATE_MODEL_TYPE;
+      this.dateModelType = ODataTableCellEditorDateComponent.DEFAULT_DATE_MODEL_TYPE;
     }
     if (typeof (this.dateModelFormat) === 'undefined') {
-      this.dateModelFormat = OTableCellEditorDateComponent.DEFAULT_DATE_MODEL_FORMAT;
+      this.dateModelFormat = ODataTableCellEditorDateComponent.DEFAULT_DATE_MODEL_FORMAT;
     }
   }
 
@@ -113,7 +113,7 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
       cellElement.html(this.getHtml(data));
       input = cellElement.find('input');
       input.width(input.width() - 24);
-      OTableCellEditorDateComponent.datePicker = input.datepicker({
+      ODataTableCellEditorDateComponent.datePicker = input.datepicker({
         dateFormat: this.datePickerFormat,
         showAnim: 'slideDown',
         dayNames: this.datePickerLabels.days,
@@ -172,8 +172,8 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
     if (input.length > 0) {
       let newValue = undefined;
       let datePickerDate = input.datepicker('getDate');
-      OTableCellEditorDateComponent.datePicker.datepicker('hide');
-      OTableCellEditorDateComponent.datePicker = undefined;
+      ODataTableCellEditorDateComponent.datePicker.datepicker('hide');
+      ODataTableCellEditorDateComponent.datePicker = undefined;
       this.destroy(cellElement);
       if (datePickerDate) {
         switch (this.dateModelType) {
@@ -206,7 +206,7 @@ export class OTableCellEditorDateComponent implements OnInit, ITableCellEditor {
   public createEditorForInsertTable(cellElement: any, data: any) {
     cellElement.html(this.getHtml(data));
     this.insertTableInput = cellElement.find('input');
-    OTableCellEditorDateComponent.datePicker = this.insertTableInput.datepicker({
+    ODataTableCellEditorDateComponent.datePicker = this.insertTableInput.datepicker({
       dateFormat: this.datePickerFormat,
       showAnim: 'slideDown',
       dayNames: this.datePickerLabels.days,

@@ -1,8 +1,8 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 import { OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
-import { OTableComponent } from '../o-table.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
 
@@ -32,7 +32,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-service',
+  selector: 'o-datatable-cell-renderer-service',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE
@@ -41,7 +41,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
   ]
 })
-export class OTableCellRendererServiceComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererServiceComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE;
 
@@ -58,7 +58,7 @@ export class OTableCellRendererServiceComponent implements OnInit, ITableCellRen
   protected separator: string;
   protected queryMethod: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.componentData = {};
@@ -102,12 +102,12 @@ export class OTableCellRendererServiceComponent implements OnInit, ITableCellRen
       }
     }
     if (this.columns) {
-      this.dataColumns = this.columns.split(OTableComponent.COLUMNS_SEPARATOR);
+      this.dataColumns = this.columns.split(ODataTableComponent.COLUMNS_SEPARATOR);
     } else {
       this.dataColumns = [];
     }
     if (this.visibleColumns) {
-      this.dataVisibleColumns = this.visibleColumns.split(OTableComponent.COLUMNS_SEPARATOR);
+      this.dataVisibleColumns = this.visibleColumns.split(ODataTableComponent.COLUMNS_SEPARATOR);
     } else {
       this.dataVisibleColumns = [];
     }
@@ -151,11 +151,11 @@ export class OTableCellRendererServiceComponent implements OnInit, ITableCellRen
               }
             }
           } else {
-            console.log('[OTableCellRendererServiceComponent.init]: error code ' + res.code + ' when querying data');
+            console.log('[ODataTableCellRendererServiceComponent.init]: error code ' + res.code + ' when querying data');
           }
         },
         err => {
-          console.log('[OTableCellRendererServiceComponent.init]: error', err);
+          console.log('[ODataTableCellRendererServiceComponent.init]: error', err);
         }
       );
     }

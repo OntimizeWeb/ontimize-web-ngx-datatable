@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 
 import {
-  OTableColumnComponent,
+  ODataTableColumnComponent,
   ITableCellRenderer
-} from '../o-table-column.component';
+} from '../o-datatable-column.component';
 
 import { OTranslateService, Util } from 'ontimize-web-ng2';
 
@@ -17,13 +17,13 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_STRING = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-string',
+  selector: 'o-datatable-cell-renderer-string',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_STRING
   ],
 })
-export class OTableCellRendererStringComponent implements ITableCellRenderer {
+export class ODataTableCellRendererStringComponent implements ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_STRING = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_STRING;
 
@@ -31,7 +31,7 @@ export class OTableCellRendererStringComponent implements ITableCellRenderer {
   protected translateService: OTranslateService;
 
   constructor(
-    @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+    @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector
   ) {
     tableColumn.registerRenderer(this);

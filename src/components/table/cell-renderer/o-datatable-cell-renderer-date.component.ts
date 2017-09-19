@@ -1,6 +1,6 @@
 import { Component, Inject, Injector, forwardRef } from '@angular/core';
 import { MomentService } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE = [
   // format [string]: date format. See MomentJS (http://momentjs.com/).
@@ -8,20 +8,20 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-date',
+  selector: 'o-datatable-cell-renderer-date',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE
   ]
 })
-export class OTableCellRendererDateComponent implements ITableCellRenderer {
+export class ODataTableCellRendererDateComponent implements ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE;
 
   protected momentService: MomentService;
   protected format: string;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.momentService = this.injector.get(MomentService);

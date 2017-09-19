@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter, Injector } from '@angular/core';
 import { OTranslateService } from 'ontimize-web-ng2';
-import { OTableComponent } from '../o-table.component';
+import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_TABLE_BUTTON = [
   'icon',
@@ -12,7 +12,7 @@ export const DEFAULT_OUTPUTS_O_TABLE_BUTTON = [
 ];
 
 @Component({
-  selector: 'o-table-button',
+  selector: 'o-datatable-button',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_BUTTON
@@ -21,20 +21,20 @@ export const DEFAULT_OUTPUTS_O_TABLE_BUTTON = [
     ...DEFAULT_OUTPUTS_O_TABLE_BUTTON
   ]
 })
-export class OTableButtonComponent implements OnInit {
+export class ODataTableButtonComponent implements OnInit {
 
   public static DEFAULT_INPUTS_O_TABLE_BUTTON = DEFAULT_INPUTS_O_TABLE_BUTTON;
   public static DEFAULT_OUTPUTS_O_TABLE_BUTTON = DEFAULT_OUTPUTS_O_TABLE_BUTTON;
 
   public onClick: EventEmitter<Object> = new EventEmitter<Object>();
 
-  protected table: OTableComponent;
+  protected table: ODataTableComponent;
   protected translateService: OTranslateService;
   protected icon: string;
   protected olabel: string;
 
 
-  constructor(protected injector: Injector, @Inject(forwardRef(() => OTableComponent)) table: OTableComponent) {
+  constructor(protected injector: Injector, @Inject(forwardRef(() => ODataTableComponent)) table: ODataTableComponent) {
     this.table = table;
     this.translateService = injector.get(OTranslateService);
   }

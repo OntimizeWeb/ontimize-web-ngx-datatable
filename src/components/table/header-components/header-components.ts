@@ -1,2 +1,2 @@
-export * from './o-table-button.component';
-export * from './o-table-option.component';
+export * from './o-datatable-button.component';
+export * from './o-datatable-option.component';

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter } from '@angular/core';
 import { Util } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
 
@@ -20,13 +20,13 @@ export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-image',
+  selector: 'o-datatable-cell-renderer-image',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE
   ]
 })
-export class OTableCellRendererImageComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererImageComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE;
   public static DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE = DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE;
@@ -37,7 +37,7 @@ export class OTableCellRendererImageComponent implements OnInit, ITableCellRende
 
   onClick: EventEmitter<Object> = new EventEmitter<Object>();
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent) {
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent) {
     tableColumn.registerRenderer(this);
   }
 

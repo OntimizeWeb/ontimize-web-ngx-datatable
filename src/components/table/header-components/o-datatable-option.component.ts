@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter } from '@angular/core';
-import { OTableComponent } from '../o-table.component';
+import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_TABLE_OPTION = [
   'icon',
@@ -12,7 +12,7 @@ export const DEFAULT_OUTPUTS_O_TABLE_OPTION = [
 ];
 
 @Component({
-  selector: 'o-table-option',
+  selector: 'o-datatable-option',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_OPTION
@@ -21,19 +21,19 @@ export const DEFAULT_OUTPUTS_O_TABLE_OPTION = [
     ...DEFAULT_OUTPUTS_O_TABLE_OPTION
   ]
 })
-export class OTableOptionComponent implements OnInit {
+export class ODataTableOptionComponent implements OnInit {
 
   public static DEFAULT_INPUTS_O_TABLE_OPTION = DEFAULT_INPUTS_O_TABLE_OPTION;
   public static DEFAULT_OUTPUTS_O_TABLE_OPTION = DEFAULT_OUTPUTS_O_TABLE_OPTION;
 
   public onClick: EventEmitter<Object> = new EventEmitter<Object>();
 
-  protected table: OTableComponent;
+  protected table: ODataTableComponent;
   protected icon: string;
   protected olabel: string;
   protected iconPosition: string;
 
-  constructor( @Inject(forwardRef(() => OTableComponent)) table: OTableComponent) {
+  constructor( @Inject(forwardRef(() => ODataTableComponent)) table: ODataTableComponent) {
     this.table = table;
   }
 

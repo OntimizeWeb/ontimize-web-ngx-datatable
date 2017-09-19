@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { OTranslateService } from 'ontimize-web-ng2';
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION = [
@@ -25,7 +25,7 @@ export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-action',
+  selector: 'o-datatable-cell-renderer-action',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION
@@ -34,7 +34,7 @@ export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = [
     ...DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION
   ]
 })
-export class OTableCellRendererActionComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererActionComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION;
   public static DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION;
@@ -52,7 +52,7 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
   protected static EDIT_SAVE_ICON = 'done';
   protected static EDIT_CANCEL_ICON = 'clear';
 
-  protected tableColumn: OTableColumnComponent;
+  protected tableColumn: ODataTableColumnComponent;
   protected translateService: OTranslateService;
   protected action: string;
   protected editionMode: string;
@@ -61,18 +61,18 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
   protected actionTitle: string;
   onClick: EventEmitter<Object> = new EventEmitter<Object>();
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     this.tableColumn = tableColumn;
     this.tableColumn.registerRenderer(this);
     this.translateService = this.injector.get(OTranslateService);
-    this.renderType = OTableCellRendererActionComponent.DEFAULT_RENDER_TYPE;
+    this.renderType = ODataTableCellRendererActionComponent.DEFAULT_RENDER_TYPE;
   }
 
   public ngOnInit() {
     if ((typeof (this.renderValue) === 'undefined') &&
-      OTableCellRendererActionComponent.DEFAULT_RENDER_VALUES.hasOwnProperty(this.action)) {
-      this.renderValue = OTableCellRendererActionComponent.DEFAULT_RENDER_VALUES[this.action];
+      ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES.hasOwnProperty(this.action)) {
+      this.renderValue = ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES[this.action];
     }
     if (this.renderType === 'icon' && this.tableColumn.width === undefined) {
       // using width = 2 because padding-left and right is 24 so total width will be 50
@@ -93,8 +93,8 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
       }
       if (typeof (parameters.renderValue) !== 'undefined') {
         this.renderValue = parameters.renderValue;
-      } else if (OTableCellRendererActionComponent.DEFAULT_RENDER_VALUES.hasOwnProperty(this.action)) {
-        this.renderValue = OTableCellRendererActionComponent.DEFAULT_RENDER_VALUES[this.action];
+      } else if (ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES.hasOwnProperty(this.action)) {
+        this.renderValue = ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES[this.action];
       }
     }
   }
@@ -105,7 +105,7 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
       actionTitleKey = this.action.toUpperCase();
     }
     let actionTranslated = (typeof (actionTitleKey) !== 'undefined') ? this.translateService.get(actionTitleKey) : '';
-    let result = '<div class="o-table-row-action" title="' + actionTranslated + '">';
+    let result = '<div class="o-datatable-row-action" title="' + actionTranslated + '">';
     switch (this.renderType) {
       case 'string':
         result += this.translateService.get(this.renderValue);
@@ -132,13 +132,13 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
       this.onClick.emit(rowData);
       if (typeof (this.action) !== 'undefined') {
         switch (this.action.toLowerCase()) {
-          case OTableCellRendererActionComponent.ACTION_DETAIL:
+          case ODataTableCellRendererActionComponent.ACTION_DETAIL:
             this.tableColumn.viewDetail(rowData);
             break;
-          case OTableCellRendererActionComponent.ACTION_DELETE:
+          case ODataTableCellRendererActionComponent.ACTION_DELETE:
             this.tableColumn.remove(rowData);
             break;
-          case OTableCellRendererActionComponent.ACTION_EDIT:
+          case ODataTableCellRendererActionComponent.ACTION_EDIT:
             if (this.editionMode === 'inline') {
               this.handleInlineEditActionClick(cellElement, rowData);
             } else {
@@ -160,7 +160,7 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
 
       // render actions
       cellElement.html(this.renderEditActions());
-      cellElement.find('.o-table-row-action-edit-cancel').bind('click', (e) => {
+      cellElement.find('.o-datatable-row-action-edit-cancel').bind('click', (e) => {
         e.stopPropagation();
 
         // render renderers
@@ -170,7 +170,7 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
         cellElement.html(this.render(undefined, undefined));
         this.handleCreatedCell(cellElement, rowData);
       });
-      cellElement.find('.o-table-row-action-edit-save').bind('click', (e) => {
+      cellElement.find('.o-datatable-row-action-edit-save').bind('click', (e) => {
         e.stopPropagation();
 
         // save
@@ -195,11 +195,11 @@ export class OTableCellRendererActionComponent implements OnInit, ITableCellRend
   }
 
   protected renderEditActions() {
-    let html = '<md-icon class="o-table-row-action-edit-cancel material-icons" title="' + this.translateService.get('CANCEL') + '">' +
-      OTableCellRendererActionComponent.EDIT_CANCEL_ICON +
+    let html = '<md-icon class="o-datatable-row-action-edit-cancel material-icons" title="' + this.translateService.get('CANCEL') + '">' +
+      ODataTableCellRendererActionComponent.EDIT_CANCEL_ICON +
       '</md-icon>' +
-      '<md-icon class="o-table-row-action-edit-save material-icons" title="' + this.translateService.get('SAVE') + '">' +
-      OTableCellRendererActionComponent.EDIT_SAVE_ICON +
+      '<md-icon class="o-datatable-row-action-edit-save material-icons" title="' + this.translateService.get('SAVE') + '">' +
+      ODataTableCellRendererActionComponent.EDIT_SAVE_ICON +
       '</md-icon>';
     return html;
   }

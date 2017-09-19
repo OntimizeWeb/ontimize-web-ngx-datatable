@@ -38,34 +38,34 @@ import {
 
 import { MdMenuTrigger, MdTabGroup, MdTab } from '@angular/material';
 
-import { OTableColumnComponent } from './o-table-column.component';
+import { ODataTableColumnComponent } from './o-datatable-column.component';
 import {
-  OTableCellEditorBooleanComponent,
-  OTableCellEditorComboComponent,
-  OTableCellEditorDateComponent,
-  OTableCellEditorIntegerComponent,
-  OTableCellEditorRealComponent,
-  OTableCellEditorStringComponent
+  ODataTableCellEditorBooleanComponent,
+  ODataTableCellEditorComboComponent,
+  ODataTableCellEditorDateComponent,
+  ODataTableCellEditorIntegerComponent,
+  ODataTableCellEditorRealComponent,
+  ODataTableCellEditorStringComponent
 } from './cell-editor/cell-editor';
 
 import {
-  OTableCellRendererActionComponent,
-  OTableCellRendererBooleanComponent,
-  OTableCellRendererCurrencyComponent,
-  OTableCellRendererDateComponent,
-  OTableCellRendererImageComponent,
-  OTableCellRendererIntegerComponent,
-  OTableCellRendererRealComponent,
-  OTableCellRendererServiceComponent,
-  OTableCellRendererStringComponent
+  ODataTableCellRendererActionComponent,
+  ODataTableCellRendererBooleanComponent,
+  ODataTableCellRendererCurrencyComponent,
+  ODataTableCellRendererDateComponent,
+  ODataTableCellRendererImageComponent,
+  ODataTableCellRendererIntegerComponent,
+  ODataTableCellRendererRealComponent,
+  ODataTableCellRendererServiceComponent,
+  ODataTableCellRendererStringComponent
 } from './cell-renderer/cell-renderer';
 
 import {
-  OTableButtonComponent,
-  OTableOptionComponent,
+  ODataTableButtonComponent,
+  ODataTableOptionComponent,
 } from './header-components/header-components';
 
-import './o-table.loader';
+import './o-datatable.loader';
 
 const TABLE_CHECKBOX_TEMPLATE = `
   <div class="mat-checkbox-inner-container">
@@ -148,7 +148,7 @@ export const DEFAULT_OUTPUTS_O_TABLE = [
   'onClick'
 ];
 
-export interface OTableInitializationOptions {
+export interface ODataTableInitializationOptions {
   entity?: string;
   service?: string;
   columns?: string;
@@ -160,9 +160,9 @@ export interface OTableInitializationOptions {
 }
 
 @Component({
-  selector: 'o-table',
-  templateUrl: './o-table.component.html',
-  styleUrls: ['./o-table.component.scss'],
+  selector: 'o-datatable',
+  templateUrl: './o-datatable.component.html',
+  styleUrls: ['./o-datatable.component.scss'],
   providers: [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
   ],
@@ -174,11 +174,11 @@ export interface OTableInitializationOptions {
   ],
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class.o-table]': 'true'
+    '[class.o-datatable]': 'true'
   }
 })
 
-export class OTableComponent extends OServiceComponent implements OnInit, OnDestroy, OnChanges {
+export class ODataTableComponent extends OServiceComponent implements OnInit, OnDestroy, OnChanges {
 
   public static DEFAULT_INPUTS_O_TABLE = DEFAULT_INPUTS_O_TABLE;
   public static DEFAULT_OUTPUTS_O_TABLE = DEFAULT_OUTPUTS_O_TABLE;
@@ -256,8 +256,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   protected onRouterNavigateSubscribe: any;
   protected onInsertRowFocusSubscribe: Array<any>;
   protected onInsertRowSubmitSubscribe: any;
-  protected headerButtons: Array<OTableButtonComponent>;
-  protected headerOptions: Array<OTableOptionComponent>;
+  protected headerButtons: Array<ODataTableButtonComponent>;
+  protected headerOptions: Array<ODataTableOptionComponent>;
   protected showOptionsButton: boolean = true;
   protected showExportOptions: boolean = false;
 
@@ -301,10 +301,10 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     this.momentService = this.injector.get(MomentService);
     this.lastDeselection = undefined;
     this.groupColumnIndex = -1;
-    this.groupColumnOrder = OTableComponent.TYPE_ASC_NAME;
-    const showAllIndex = OTableComponent.DEFAULT_QUERY_ROWS_MENU[0].indexOf(-1);
+    this.groupColumnOrder = ODataTableComponent.TYPE_ASC_NAME;
+    const showAllIndex = ODataTableComponent.DEFAULT_QUERY_ROWS_MENU[0].indexOf(-1);
     if (showAllIndex !== -1) {
-      OTableComponent.DEFAULT_QUERY_ROWS_MENU[1][showAllIndex] = this.translateService.get('TABLE.SHOW_ALL');
+      ODataTableComponent.DEFAULT_QUERY_ROWS_MENU[1][showAllIndex] = this.translateService.get('TABLE.SHOW_ALL');
     }
     this.headerButtons = [];
     this.headerOptions = [];
@@ -430,7 +430,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   }
 
 
-  reinitialize(options: OTableInitializationOptions) {
+  reinitialize(options: ODataTableInitializationOptions) {
     super.reinitialize(options);
     this.editColumnIndex = undefined;
     this.detailColumnIndex = undefined;
@@ -447,7 +447,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   initialize(): any {
 
     if (!this.detailButtonInRowIcon) {
-      this.detailButtonInRowIcon = OTableComponent.DEFAULT_DETAIL_ICON;
+      this.detailButtonInRowIcon = ODataTableComponent.DEFAULT_DETAIL_ICON;
     }
 
     super.initialize();
@@ -457,7 +457,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       let keys = Util.parseArray(this.parentKeys);
       for (let i = 0; i < keys.length; ++i) {
         let key = keys[i];
-        let keyDef = key.split(OTableComponent.COLUMNS_ALIAS_SEPARATOR);
+        let keyDef = key.split(ODataTableComponent.COLUMNS_ALIAS_SEPARATOR);
         if (keyDef.length === 1) {
           this.dataParentKeys.push({
             'alias': keyDef[0],
@@ -472,8 +472,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       }
     }
     this.queryRowsMenu = [];
-    this.queryRowsMenu[0] = OTableComponent.DEFAULT_QUERY_ROWS_MENU[0].slice();
-    this.queryRowsMenu[1] = OTableComponent.DEFAULT_QUERY_ROWS_MENU[1].slice();
+    this.queryRowsMenu[0] = ODataTableComponent.DEFAULT_QUERY_ROWS_MENU[0].slice();
+    this.queryRowsMenu[1] = ODataTableComponent.DEFAULT_QUERY_ROWS_MENU[1].slice();
     if (this.queryRowsMenu[0].indexOf(this.queryRows) === -1) {
       for (let i = 0; i < this.queryRowsMenu[0].length; i++) {
         var item = this.queryRowsMenu[0][i];
@@ -603,7 +603,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   protected initTableOnInit(columns: any = undefined) {
     var self = this;
 
-    let domOption = 'r<"dataTables_fill_remaining"<"o-table-scroll"t>>';
+    let domOption = 'r<"dataTables_fill_remaining"<"o-datatable-scroll"t>>';
     if (this.paginationControls) {
       domOption += '<"dataTables_pagination_wrapper"pil>';
     }
@@ -644,7 +644,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
         /*{
           orderable: false,
           searchable: false,
-          className: 'o-table-select-checkbox'
+          className: 'o-datatable-select-checkbox'
         }*/
       ],
       createdRow: (row, data, dataIndex) => {
@@ -734,7 +734,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
           for (let i = settings.aoColumns.length - 1; i >= 0; --i) {
             let colDef = settings.aoColumns[i];
             if (colDef.bVisible) {
-              let tdClass = (i === 0 && this.selectAllCheckbox) ? 'o-table-column-select-checkbox' : 'o-table-column-insert-table';
+              let tdClass = (i === 0 && this.selectAllCheckbox) ? 'o-datatable-column-select-checkbox' : 'o-datatable-column-insert-table';
               insertRow.prepend('<td class=' + tdClass + '></td>');
               if (colDef.editable && (typeof (colDef.component) !== 'undefined') &&
                 (typeof (colDef.component.editor) !== 'undefined')) {
@@ -756,7 +756,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
                       if (res.insertTable) {
                         let av = this.getAvToInsertFromTableSettings(settings, true);
                         // perform insert
-                        console.log('[OTable.initTableOnInit]: insert', av);
+                        console.log('[ODataTable.initTableOnInit]: insert', av);
                         this.loaderSuscription = this.load();
                         this.dataService[this.insertMethod](av, this.entity)
                           .subscribe(
@@ -764,15 +764,15 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
                             if ((typeof (res.code) === 'undefined') ||
                               ((typeof (res.code) !== 'undefined') && (res.code === 0))) {
                               this.queryData(this.parentItem);
-                              console.log('[OTable.initTableOnInit]: insert ok', res);
+                              console.log('[ODataTable.initTableOnInit]: insert ok', res);
                             } else {
-                              console.log('[OTable.initTableOnInit]: error', res.code);
+                              console.log('[ODataTable.initTableOnInit]: error', res.code);
                               this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
                             }
                             this.loaderSuscription.unsubscribe();
                           },
                           err => {
-                            console.log('[OTable.initTableOnInit]: error', err);
+                            console.log('[ODataTable.initTableOnInit]: error', err);
                             this.loaderSuscription.unsubscribe();
                             this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
                           }
@@ -815,7 +815,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       headerCallback: function (thead, data, start, end, display) {
         if (self.selectAllCheckbox) {
           var checkboxCell = ($(thead) as any).find('th').eq(0);
-          checkboxCell.attr('class', 'o-table-column-select-checkbox');
+          checkboxCell.attr('class', 'o-datatable-column-select-checkbox');
           checkboxCell.html(TABLE_CHECKBOX_TEMPLATE);
           checkboxCell.find('.select-row').attr('id', 'select_all');
         }
@@ -823,7 +823,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     };
 
     if (typeof (columns) !== 'undefined') {
-      // columns defined with 'o-table-column' directives
+      // columns defined with 'o-datatable-column' directives
       for (let i = 0; i < columns.length; ++i) {
         let col = columns[i];
         if ((typeof (col.title) === 'string') && (col.name === col.data)) {
@@ -837,7 +837,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
         //     selectAllColumn: true,
         //     searchable: false,
         //     orderable: false,
-        //     className: 'o-table-column-select-checkbox',
+        //     className: 'o-datatable-column-select-checkbox',
         //     render: function (data, type, full, meta) {
         //       return TABLE_CHECKBOX_TEMPLATE;
         //     }
@@ -851,7 +851,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
           selectAllColumn: true,
           searchable: false,
           orderable: false,
-          className: 'o-table-column-select-checkbox',
+          className: 'o-datatable-column-select-checkbox',
           render: function (data, type, full, meta) {
             return TABLE_CHECKBOX_TEMPLATE;
           }
@@ -864,7 +864,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
           data: col,
           name: col,
           title: this.translateService.get(col),
-          className: 'o-table-column',
+          className: 'o-datatable-column',
           defaultContent: '',
           orderable: true,
           searchable: true,
@@ -883,17 +883,17 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       let cols = Util.parseArray(this.sortColumns);
       for (let i = 0; i < cols.length; ++i) {
         let col = cols[i];
-        let colDef = col.split(OTableComponent.TYPE_SEPARATOR);
+        let colDef = col.split(ODataTableComponent.TYPE_SEPARATOR);
         if (colDef.length > 0) {
           let colName = colDef[0];
           for (let colIndex = 0; colIndex < this.dataTableOptions.columns.length; ++colIndex) {
             if (colName === this.dataTableOptions.columns[colIndex].name) {
-              let sortDirection = OTableComponent.TYPE_ASC_NAME;
+              let sortDirection = ODataTableComponent.TYPE_ASC_NAME;
               if (colDef.length > 1) {
                 sortDirection = colDef[1].toLowerCase();
                 switch (sortDirection) {
-                  case OTableComponent.TYPE_DESC_NAME:
-                    sortDirection = OTableComponent.TYPE_DESC_NAME;
+                  case ODataTableComponent.TYPE_DESC_NAME:
+                    sortDirection = ODataTableComponent.TYPE_DESC_NAME;
                     break;
                 }
               }
@@ -917,8 +917,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     this.detailColumnIndex = -1;
 
     if (this.editButtonInRow) {
-      var editColumn = new OTableColumnComponent(this, this.injector);
-      var editColumnRenderer = new OTableCellRendererActionComponent(editColumn, this.injector);
+      var editColumn = new ODataTableColumnComponent(this, this.injector);
+      var editColumnRenderer = new ODataTableCellRendererActionComponent(editColumn, this.injector);
       editColumnRenderer.init({
         action: 'edit',
         editionMode: this.editionMode,
@@ -929,8 +929,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       this.registerColumn(editColumn);
     }
     if (this.detailButtonInRow) {
-      var detailColumn = new OTableColumnComponent(this, this.injector);
-      var detailColumnRenderer = new OTableCellRendererActionComponent(detailColumn, this.injector);
+      var detailColumn = new ODataTableColumnComponent(this, this.injector);
+      var detailColumnRenderer = new ODataTableCellRendererActionComponent(detailColumn, this.injector);
       detailColumnRenderer.init({
         action: 'detail',
         renderType: 'icon',
@@ -945,7 +945,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     var menuEl = ($('.mat-overlay-container .mat-menu') as any);
     var menuContainer = menuEl.parent();
     if (menuContainer) {
-      var menuBtn = ($(this.elRef.nativeElement) as any).find('.o-table-menu-button');
+      var menuBtn = ($(this.elRef.nativeElement) as any).find('.o-datatable-menu-button');
       var menuBtnOffset = menuBtn.offset();
       var top = menuBtnOffset.top + menuBtn.outerHeight(true) - 30;
       var left = menuBtnOffset.left - menuEl.outerWidth(true) + menuBtn.outerWidth(true) - 16;
@@ -1036,9 +1036,9 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
           colType = colDef.component.type;
         }
         // hide datepicker when moving with arrows
-        if ((37 <= key) && (key <= 40) && (typeof (OTableCellEditorDateComponent.datePicker) !== 'undefined') && (colType !== 'date')) {
-          OTableCellEditorDateComponent.datePicker.datepicker('hide');
-          OTableCellEditorDateComponent.datePicker = undefined;
+        if ((37 <= key) && (key <= 40) && (typeof (ODataTableCellEditorDateComponent.datePicker) !== 'undefined') && (colType !== 'date')) {
+          ODataTableCellEditorDateComponent.datePicker.datepicker('hide');
+          ODataTableCellEditorDateComponent.datePicker = undefined;
         }
       }
     });
@@ -1169,7 +1169,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     }
   }
 
-  public setInitialColumnWidth(column: OTableColumnComponent) {
+  public setInitialColumnWidth(column: ODataTableColumnComponent) {
     // let existing: any = this.initialColumnsWidths.filter(
     //   element => element.name === column.getColumnName());
     // if (existing) {
@@ -1182,14 +1182,14 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     // }
   }
 
-  public registerColumn(column: OTableColumnComponent, index?: number) {
+  public registerColumn(column: ODataTableColumnComponent, index?: number) {
     let colDef = {
       data: undefined,
       name: undefined,
       component: column,
       title: this.translateService.get(column.title),
       type: 'string',
-      className: 'o-table-column ' + (column.class || '') + ' ',
+      className: 'o-datatable-column ' + (column.class || '') + ' ',
       defaultContent: '',
       orderable: true,
       searchable: true,
@@ -1205,7 +1205,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
 
     if (typeof (column.attr) === 'undefined') {
       // column without 'attr' should contain only renderers that do not depend on cell data, but row data (e.g. actions)
-      colDef.className += ' o-table-column-action';
+      colDef.className += ' o-datatable-column-action';
       colDef.orderable = false;
       colDef.searchable = false;
       colDef.name = column.generatedAttr;
@@ -1215,29 +1215,29 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       colDef.name = column.attr;
       switch (column.type) {
         case 'boolean':
-          colDef.className += 'o-table-column-boolean';
+          colDef.className += 'o-datatable-column-boolean';
           colDef.type = 'string';
           break;
         case 'string':
-          colDef.className += 'o-table-column-string';
+          colDef.className += 'o-datatable-column-string';
           colDef.type = 'string';
           break;
         case 'integer':
         case 'real':
         case 'currency':
-          colDef.className += 'o-table-column-number';
+          colDef.className += 'o-datatable-column-number';
           colDef.type = 'o-number';
           break;
         case 'date':
-          colDef.className += 'o-table-column-date';
+          colDef.className += 'o-datatable-column-date';
           colDef.type = 'o-timestamp';
           break;
         case 'image':
-          colDef.className += 'o-table-column-image';
+          colDef.className += 'o-datatable-column-image';
           colDef.type = 'string';
           break;
         default:
-          colDef.className += 'o-table-column-string';
+          colDef.className += 'o-datatable-column-string';
           colDef.type = 'string';
           break;
       }
@@ -1282,7 +1282,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       let rowDataArray = this.table.rows(indexes).data().toArray();
       if (rowDataArray.length === 1) {
         let rowData = rowDataArray[0];
-        console.log('[OTable.updateCell]: before update', rowData);
+        console.log('[ODataTable.updateCell]: before update', rowData);
         let kv = {};
         for (let k = 0; k < this.keysArray.length; ++k) {
           let key = this.keysArray[k];
@@ -1304,16 +1304,16 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
               if (typeof (cellElement.attr('o-number-value')) !== 'undefined') {
                 cellElement.attr('o-number-value', value);
               }
-              console.log('[OTable.updateCell]: after update', rowData);
+              console.log('[ODataTable.updateCell]: after update', rowData);
             } else {
-              console.log('[OTable.updateCell]: error', res.code);
+              console.log('[ODataTable.updateCell]: error', res.code);
               this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
               cell.data(oldValue);
             }
             this.loaderSuscription.unsubscribe();
           },
           err => {
-            console.log('[OTable.updateCell]: error', err);
+            console.log('[ODataTable.updateCell]: error', err);
             this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
             cell.data(oldValue);
             this.loaderSuscription.unsubscribe();
@@ -1329,7 +1329,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   public updateRow(cellElement: any, av: any) {
     if (typeof (av) !== 'undefined') {
       let rowCurrentData = this.table.row(cellElement).data();
-      console.log('[OTable.updateRow]: before update', rowCurrentData);
+      console.log('[ODataTable.updateRow]: before update', rowCurrentData);
       let kv = {};
       for (let k = 0; k < this.keysArray.length; ++k) {
         let key = this.keysArray[k];
@@ -1341,15 +1341,15 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
         res => {
           if ((typeof (res.code) === 'undefined') ||
             ((typeof (res.code) !== 'undefined') && (res.code === 0))) {
-            console.log('[OTable.updateRow]: after update', this.table.row(cellElement).data());
+            console.log('[ODataTable.updateRow]: after update', this.table.row(cellElement).data());
           } else {
-            console.log('[OTable.updateRow]: error', res.code);
+            console.log('[ODataTable.updateRow]: error', res.code);
             this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
           }
           this.loaderSuscription.unsubscribe();
         },
         err => {
-          console.log('[OTable.updateRow]: error', err);
+          console.log('[ODataTable.updateRow]: error', err);
           this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
           this.loaderSuscription.unsubscribe();
         }
@@ -1507,10 +1507,10 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
 
   public setSelectAllCheckboxValue(val: boolean) {
     if (this.selectAllCheckbox) {
-      let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox') as any;
+      let headerCheckboxCol = this.tableHtmlEl.find('th.o-datatable-column-select-checkbox') as any;
       let wasIndeterminate = headerCheckboxCol.hasClass('mat-checkbox-indeterminate');
 
-      headerCheckboxCol.attr('class', 'o-table-column-select-checkbox');
+      headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
       if (val) {
         headerCheckboxCol.addClass('mat-checkbox-checked mat-checkbox-anim-unchecked-checked');
       } else if (wasIndeterminate) {
@@ -1574,8 +1574,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
 
   protected handleRowCheckboxChange(event: any) {
     let rowEL = ($(event.target) as any).parents('tr:first');
-    let checkBoxColumn = rowEL.find('.o-table-column-select-checkbox:first');
-    checkBoxColumn.attr('class', 'o-table-column-select-checkbox');
+    let checkBoxColumn = rowEL.find('.o-datatable-column-select-checkbox:first');
+    checkBoxColumn.attr('class', 'o-datatable-column-select-checkbox');
 
     let tableRow = this.table.rows(rowEL);
     let rowData = tableRow.data().toArray()[0];
@@ -1592,8 +1592,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
       if (selectAllEL && selectAllEL.checked && ('indeterminate' in selectAllEL)) {
         // Set visual state of "Select all" control as 'indeterminate'
         selectAllEL.indeterminate = true;
-        let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox');
-        headerCheckboxCol.attr('class', 'o-table-column-select-checkbox');
+        let headerCheckboxCol = this.tableHtmlEl.find('th.o-datatable-column-select-checkbox');
+        headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
         headerCheckboxCol.addClass('mat-checkbox-indeterminate mat-checkbox-anim-checked-indeterminate');
       }
     }
@@ -1680,8 +1680,8 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
         let order = this.table.order();
         let columnIndex = parseInt(th.attr('data-column-index'));
         if (this.groupColumnIndex === columnIndex) {
-          if ((order[0][0] === this.groupColumnIndex) && (order[0][1] === OTableComponent.TYPE_ASC_NAME)) {
-            this.groupColumnOrder = OTableComponent.TYPE_DESC_NAME;
+          if ((order[0][0] === this.groupColumnIndex) && (order[0][1] === ODataTableComponent.TYPE_ASC_NAME)) {
+            this.groupColumnOrder = ODataTableComponent.TYPE_DESC_NAME;
             order[0][1] = this.groupColumnOrder;
             th.addClass('group');
           } else {
@@ -1693,7 +1693,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
             order = order.slice(1);
           }
           this.groupColumnIndex = columnIndex;
-          this.groupColumnOrder = OTableComponent.TYPE_ASC_NAME;
+          this.groupColumnOrder = ODataTableComponent.TYPE_ASC_NAME;
           let orderByGroupColumn = true;
           for (let i = 0; i < order.length; ++i) {
             if (order[i][0] === this.groupColumnIndex) {
@@ -1851,7 +1851,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
               }
               self.updateDeleteButtonState();
             } else {
-              console.log('[OTable.queryData]: error code ' + res.code + ' when querying data');
+              console.log('[ODataTable.queryData]: error code ' + res.code + ' when querying data');
               self.setDataArray([]);
               self.dataTable.fnClearTable(true);
             }
@@ -1862,7 +1862,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
             ObservableWrapper.callEmit(self.onTableDataLoaded, self.dataArray);
           },
           err => {
-            console.log('[OTable.queryData]: error', err);
+            console.log('[ODataTable.queryData]: error', err);
             self.setDataArray([]);
             self.dataTable.fnClearTable(true);
             self.loaderSuscription.unsubscribe();
@@ -2087,15 +2087,15 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
                 .map(kv => this.dataService[this.deleteMethod](kv, this.entity)).mergeAll();
               observable.subscribe(
                 res => {
-                  console.log('[OTable.remove]: response', res);
+                  console.log('[ODataTable.remove]: response', res);
                   ObservableWrapper.callEmit(this.onRowDeleted, this.selectedItems);
                 },
                 error => {
-                  console.log('[OTable.remove]: error', error);
+                  console.log('[ODataTable.remove]: error', error);
                   this.dialogService.alert('ERROR', 'MESSAGES.ERROR_DELETE');
                 },
                 () => {
-                  console.log('[OTable.remove]: success');
+                  console.log('[ODataTable.remove]: success');
                   this.setTableInitialState();
                   let queryArgs = {
                     offset: 0,
@@ -2164,7 +2164,7 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
   protected getTableOptions() {
     let options = [];
     var self = this;
-    var columnsSelector = ':visible:not(.o-table-select-checkbox):not(.o-table-column-action)';
+    var columnsSelector = ':visible:not(.o-datatable-select-checkbox):not(.o-datatable-column-action)';
     // export actions
     if (this.exportButton) {
       options.push({
@@ -2472,15 +2472,15 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
     return rowData;
   }
 
-  public registerHeaderButton(button: OTableButtonComponent) {
+  public registerHeaderButton(button: ODataTableButtonComponent) {
     this.headerButtons.push(button);
   }
 
-  public registerHeaderOption(option: OTableOptionComponent) {
+  public registerHeaderOption(option: ODataTableOptionComponent) {
     this.headerOptions.push(option);
   }
 
-  public getRowDataFromColumn(tableColumn: OTableColumnComponent) {
+  public getRowDataFromColumn(tableColumn: ODataTableColumnComponent) {
     if (tableColumn && tableColumn.cellElement) {
       return this.table.row(tableColumn.cellElement).data();
     }
@@ -2521,51 +2521,51 @@ export class OTableComponent extends OServiceComponent implements OnInit, OnDest
 
 @NgModule({
   declarations: [
-    OTableComponent,
-    OTableColumnComponent,
-    OTableCellRendererActionComponent,
-    OTableCellRendererBooleanComponent,
-    OTableCellRendererCurrencyComponent,
-    OTableCellRendererDateComponent,
-    OTableCellRendererImageComponent,
-    OTableCellRendererIntegerComponent,
-    OTableCellRendererRealComponent,
-    OTableCellRendererServiceComponent,
-    OTableCellRendererStringComponent,
-    OTableCellEditorBooleanComponent,
-    OTableCellEditorComboComponent,
-    OTableCellEditorDateComponent,
-    OTableCellEditorIntegerComponent,
-    OTableCellEditorRealComponent,
-    OTableCellEditorStringComponent,
-    OTableButtonComponent,
-    OTableOptionComponent
+    ODataTableComponent,
+    ODataTableColumnComponent,
+    ODataTableCellRendererActionComponent,
+    ODataTableCellRendererBooleanComponent,
+    ODataTableCellRendererCurrencyComponent,
+    ODataTableCellRendererDateComponent,
+    ODataTableCellRendererImageComponent,
+    ODataTableCellRendererIntegerComponent,
+    ODataTableCellRendererRealComponent,
+    ODataTableCellRendererServiceComponent,
+    ODataTableCellRendererStringComponent,
+    ODataTableCellEditorBooleanComponent,
+    ODataTableCellEditorComboComponent,
+    ODataTableCellEditorDateComponent,
+    ODataTableCellEditorIntegerComponent,
+    ODataTableCellEditorRealComponent,
+    ODataTableCellEditorStringComponent,
+    ODataTableButtonComponent,
+    ODataTableOptionComponent
   ],
   imports: [
     OSharedModule,
     CommonModule,
     RouterModule
   ],
-  exports: [OTableComponent,
-    OTableColumnComponent,
-    OTableCellRendererActionComponent,
-    OTableCellRendererBooleanComponent,
-    OTableCellRendererCurrencyComponent,
-    OTableCellRendererDateComponent,
-    OTableCellRendererImageComponent,
-    OTableCellRendererIntegerComponent,
-    OTableCellRendererRealComponent,
-    OTableCellRendererServiceComponent,
-    OTableCellRendererStringComponent,
-    OTableCellEditorBooleanComponent,
-    OTableCellEditorComboComponent,
-    OTableCellEditorDateComponent,
-    OTableCellEditorIntegerComponent,
-    OTableCellEditorRealComponent,
-    OTableCellEditorStringComponent,
-    OTableButtonComponent,
-    OTableOptionComponent
+  exports: [ODataTableComponent,
+    ODataTableColumnComponent,
+    ODataTableCellRendererActionComponent,
+    ODataTableCellRendererBooleanComponent,
+    ODataTableCellRendererCurrencyComponent,
+    ODataTableCellRendererDateComponent,
+    ODataTableCellRendererImageComponent,
+    ODataTableCellRendererIntegerComponent,
+    ODataTableCellRendererRealComponent,
+    ODataTableCellRendererServiceComponent,
+    ODataTableCellRendererStringComponent,
+    ODataTableCellEditorBooleanComponent,
+    ODataTableCellEditorComboComponent,
+    ODataTableCellEditorDateComponent,
+    ODataTableCellEditorIntegerComponent,
+    ODataTableCellEditorRealComponent,
+    ODataTableCellEditorStringComponent,
+    ODataTableButtonComponent,
+    ODataTableOptionComponent
   ]
 })
-export class OTableModule {
+export class ODataTableComponentModule {
 }

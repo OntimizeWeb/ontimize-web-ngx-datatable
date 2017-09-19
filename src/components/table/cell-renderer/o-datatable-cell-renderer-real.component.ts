@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 
 import {
-  OTableCellRendererIntegerComponent,
+  ODataTableCellRendererIntegerComponent,
   DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER
-} from './o-table-cell-renderer-integer.component';
+} from './o-datatable-cell-renderer-integer.component';
 
-import { OTableColumnComponent, ITableCellRenderer } from '../o-table-column.component';
+import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = [
 
@@ -20,20 +20,20 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = [
 ];
 
 @Component({
-  selector: 'o-table-cell-renderer-real',
+  selector: 'o-datatable-cell-renderer-real',
   template: '',
   inputs: [
     ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL
   ]
 })
-export class OTableCellRendererRealComponent extends OTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererRealComponent extends ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL;
 
   protected decimalSeparator: string;
   protected decimalDigits: number;
 
-  constructor( @Inject(forwardRef(() => OTableColumnComponent)) tableColumn: OTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     super(tableColumn, injector);
   }

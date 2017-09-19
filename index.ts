@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { OTABLE_MODULES } from './src/components';
+import { ODATATABLE_MODULES } from './src/components';
 
 /**
  * Exports
@@ -8,8 +8,8 @@ import { OTABLE_MODULES } from './src/components';
 export * from './src/components';
 
 @NgModule({
-  imports: OTABLE_MODULES,
-  exports: OTABLE_MODULES
+  imports: ODATATABLE_MODULES,
+  exports: ODATATABLE_MODULES
 })
 export class ODataTableModule {
 }
