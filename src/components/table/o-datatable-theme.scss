@@ -9,7 +9,7 @@
 
 
 
-  .o-datatable {
+  .o-table {
     input[type="checkbox" ]:focus {
       outline: none;
     }
@@ -24,7 +24,7 @@
       border-color: mat-color($foreground, divider);
     }
 
-    .o-datatable-container {
+    .o-table-container {
 
       &.disabled {
         tbody {
@@ -90,7 +90,7 @@
         thead tr th,
         tbody td {
 
-          &.o-datatable-column-select-checkbox {
+          &.o-table-column-select-checkbox {
 
             .mat-checkbox-inner-container {
 
@@ -117,19 +117,19 @@
             th {
               color: mat-color($foreground, text);
 
-              &:last-child:not(.o-datatable-column-action) {
+              &:last-child:not(.o-table-column-action) {
                 border-left-width: 1px;
                 border-left-style: solid;
                 border-left-color: mat-color($foreground, divider);
               }
 
-              &:first-child:not(.o-datatable-column-select-checkbox) {
+              &:first-child:not(.o-table-column-select-checkbox) {
                 border-right-width: 1px;
                 border-right-style: solid;
                 border-right-color: mat-color($foreground, divider);
               }
 
-              &:nth-child(n+3):nth-last-child(n+2):not(.o-datatable-column-action) {
+              &:nth-child(n+3):nth-last-child(n+2):not(.o-table-column-action) {
                 border-left-width: 1px;
                 border-left-style: solid;
                 border-left-color: mat-color($foreground, divider);
@@ -242,26 +242,26 @@
               background-color: mat-color($background, background);
             }
 
-            &:last-child:not(.o-datatable-column-action) {
+            &:last-child:not(.o-table-column-action) {
               border-left-width: 1px;
               border-left-style: solid;
               border-left-color: mat-color($foreground, divider);
             }
 
-            &:first-child:not(.o-datatable-column-action):not(.o-datatable-column-select-checkbox) {
+            &:first-child:not(.o-table-column-action):not(.o-table-column-select-checkbox) {
               border-right-width: 1px;
               border-right-style: solid;
               border-right-color: mat-color($foreground, divider);
             }
 
-            &:nth-child(n+3):nth-last-child(n+2):not(.o-datatable-column-action) {
+            &:nth-child(n+3):nth-last-child(n+2):not(.o-table-column-action) {
               border-left-width: 1px;
               border-left-style: solid;
               border-left-color: mat-color($foreground, divider);
             }
 
-            &.o-datatable-column-action {
-              .o-datatable-row-action {
+            &.o-table-column-action {
+              .o-table-row-action {
                 color: mat-color($foreground, secondary-text);
               }
             }
@@ -302,7 +302,7 @@
 
     }
 
-    .o-datatable-menu-button {
+    .o-table-menu-button {
       color: mat-color($foreground, secondary-text);
     }
 

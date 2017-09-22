@@ -255,7 +255,7 @@ $.extend( FixedHeader.prototype, {
       return $('body');
     }
 
-    var _elems = $(dt.table().body()).parents('.o-datatable-scroll');
+    var _elems = $(dt.table().body()).parents('.o-table-scroll');
     if (_elems.length) {
       return _elems[0];
     }

@@ -4,12 +4,12 @@
 </div>
 
 <div fxLayout="column" class="expandable-container fill-remaining" fxFill>
-  <div class="o-datatable-container" *ngIf="isVisible()" [class.disabled]="oenabled === false" [class.detail]="detailMode !== 'none'"
+  <div class="o-table-container" *ngIf="isVisible()" [class.disabled]="oenabled === false" [class.detail]="detailMode !== 'none'"
     title="">
 
     <table [id]="getAttribute()" [class]="rowHeight"></table>
 
-    <button *ngIf="showOptionsButton" class="o-datatable-menu-button" md-icon-button [md-menu-trigger-for]="menu">
+    <button *ngIf="showOptionsButton" class="o-table-menu-button" md-icon-button [md-menu-trigger-for]="menu">
       <md-icon>more_vert</md-icon>
     </button>
 

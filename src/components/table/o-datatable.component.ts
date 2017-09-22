@@ -174,6 +174,7 @@ export interface ODataTableInitializationOptions {
   ],
   encapsulation: ViewEncapsulation.None,
   host: {
+    '[class.o-table]': 'true',
     '[class.o-datatable]': 'true'
   }
 })
@@ -653,16 +654,14 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           let td = $(e) as any;
           const hasChildren = (td.children().length > 0);
           if (hasChildren) {
-            let timestampVal = td.children().attr('o-timestamp-value');
-            if ((typeof (timestampVal) !== 'undefined')) {
-              td.attr('o-timestamp-value', timestampVal);
+            const children = td.children();
+            if (typeof (children.attr('o-timestamp-value')) !== 'undefined') {
+              td.attr('o-timestamp-value', children.attr('o-timestamp-value'));
               td.html(td.children().text());
-            } else {
-              let numberVal = td.children().attr('o-number-value');
-              if ((typeof (numberVal) !== 'undefined')) {
-                td.attr('o-number-value', numberVal);
-                td.html(td.children().text());
-              }
+            }
+            if (typeof (children.attr('o-number-value')) !== 'undefined') {
+              td.attr('o-number-value', children.attr('o-number-value'));
+              td.html(td.children().text());
             }
           }
         });
@@ -945,7 +944,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     var menuEl = ($('.mat-overlay-container .mat-menu') as any);
     var menuContainer = menuEl.parent();
     if (menuContainer) {
-      var menuBtn = ($(this.elRef.nativeElement) as any).find('.o-datatable-menu-button');
+      var menuBtn = ($(this.elRef.nativeElement) as any).find('.o-table-menu-button');
       var menuBtnOffset = menuBtn.offset();
       var top = menuBtnOffset.top + menuBtn.outerHeight(true) - 30;
       var left = menuBtnOffset.left - menuEl.outerWidth(true) + menuBtn.outerWidth(true) - 16;
@@ -1507,7 +1506,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   public setSelectAllCheckboxValue(val: boolean) {
     if (this.selectAllCheckbox) {
-      let headerCheckboxCol = this.tableHtmlEl.find('th.o-datatable-column-select-checkbox') as any;
+      let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox') as any;
       let wasIndeterminate = headerCheckboxCol.hasClass('mat-checkbox-indeterminate');
 
       headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
@@ -1574,7 +1573,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   protected handleRowCheckboxChange(event: any) {
     let rowEL = ($(event.target) as any).parents('tr:first');
-    let checkBoxColumn = rowEL.find('.o-datatable-column-select-checkbox:first');
+    let checkBoxColumn = rowEL.find('.o-table-column-select-checkbox:first');
     checkBoxColumn.attr('class', 'o-datatable-column-select-checkbox');
 
     let tableRow = this.table.rows(rowEL);
@@ -1592,7 +1591,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       if (selectAllEL && selectAllEL.checked && ('indeterminate' in selectAllEL)) {
         // Set visual state of "Select all" control as 'indeterminate'
         selectAllEL.indeterminate = true;
-        let headerCheckboxCol = this.tableHtmlEl.find('th.o-datatable-column-select-checkbox');
+        let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox');
         headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
         headerCheckboxCol.addClass('mat-checkbox-indeterminate mat-checkbox-anim-checked-indeterminate');
       }
@@ -2164,7 +2163,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected getTableOptions() {
     let options = [];
     var self = this;
-    var columnsSelector = ':visible:not(.o-datatable-select-checkbox):not(.o-datatable-column-action)';
+    var columnsSelector = ':visible:not(.o-table-select-checkbox):not(.o-table-column-action)';
     // export actions
     if (this.exportButton) {
       options.push({
@@ -2302,10 +2301,9 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     this.table.buttons('.generic-action-view-column').trigger();
   }
 
-  protected exportAction(buttonName: String) {
+  protected exportAction(buttonName: string) {
     this.table.buttons(buttonName + ':name').trigger();
   }
-
 
   protected getTableButtons() {
     let buttons = [];

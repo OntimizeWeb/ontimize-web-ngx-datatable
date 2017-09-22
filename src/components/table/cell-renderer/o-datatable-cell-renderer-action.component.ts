@@ -105,7 +105,7 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
       actionTitleKey = this.action.toUpperCase();
     }
     let actionTranslated = (typeof (actionTitleKey) !== 'undefined') ? this.translateService.get(actionTitleKey) : '';
-    let result = '<div class="o-datatable-row-action" title="' + actionTranslated + '">';
+    let result = '<div class="o-table-row-action" title="' + actionTranslated + '">';
     switch (this.renderType) {
       case 'string':
         result += this.translateService.get(this.renderValue);
@@ -160,7 +160,7 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
 
       // render actions
       cellElement.html(this.renderEditActions());
-      cellElement.find('.o-datatable-row-action-edit-cancel').bind('click', (e) => {
+      cellElement.find('.o-table-row-action-edit-cancel').bind('click', (e) => {
         e.stopPropagation();
 
         // render renderers
@@ -170,7 +170,7 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
         cellElement.html(this.render(undefined, undefined));
         this.handleCreatedCell(cellElement, rowData);
       });
-      cellElement.find('.o-datatable-row-action-edit-save').bind('click', (e) => {
+      cellElement.find('.o-table-row-action-edit-save').bind('click', (e) => {
         e.stopPropagation();
 
         // save
@@ -195,10 +195,10 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
   }
 
   protected renderEditActions() {
-    let html = '<md-icon class="o-datatable-row-action-edit-cancel material-icons" title="' + this.translateService.get('CANCEL') + '">' +
+    let html = '<md-icon class="o-table-row-action-edit-cancel material-icons" title="' + this.translateService.get('CANCEL') + '">' +
       ODataTableCellRendererActionComponent.EDIT_CANCEL_ICON +
       '</md-icon>' +
-      '<md-icon class="o-datatable-row-action-edit-save material-icons" title="' + this.translateService.get('SAVE') + '">' +
+      '<md-icon class="o-table-row-action-edit-save material-icons" title="' + this.translateService.get('SAVE') + '">' +
       ODataTableCellRendererActionComponent.EDIT_SAVE_ICON +
       '</md-icon>';
     return html;

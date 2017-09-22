@@ -64,8 +64,11 @@ export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRende
   }
 
   public render(cellData: any, rowData: any): string {
-    return this.currencyService.getCurrencyValue(cellData, this.currencySymbol, this.currencySymbolPosition, this.grouping,
+    const value = this.currencyService.getCurrencyValue(cellData, this.currencySymbol, this.currencySymbolPosition, this.grouping,
       this.thousandSeparator, this.decimalSeparator, this.decimalDigits);
+    return '<div o-number-value="' + ((typeof (cellData) !== 'undefined') ? cellData : 0) + '">' +
+      value +
+      '</div>';
   }
 
   public handleCreatedCell(cellElement: any, rowData: any) {
