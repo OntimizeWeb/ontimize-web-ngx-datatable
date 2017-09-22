@@ -2,15 +2,15 @@ import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 
 import {
   ODataTableCellRendererRealComponent,
-  DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL
+  DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL
 } from './o-datatable-cell-renderer-real.component';
 
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 import { CurrencyService } from 'ontimize-web-ng2';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY = [
 
-  ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL,
+  ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL,
 
   // currency-symbol [string]: currency symbol. Default: dollar ($).
   'currencySymbol: currency-symbol',
@@ -24,16 +24,17 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = [
   selector: 'o-datatable-cell-renderer-currency',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY
   ]
 })
 export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRendererRealComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY;
 
   protected currencyService: CurrencyService;
   protected currencySymbol: string;
   protected currencySymbolPosition: string;
+
 
   constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
@@ -43,6 +44,7 @@ export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRende
 
   public ngOnInit() {
     super.ngOnInit();
+    this.tableColumn.updateRendererType('currency');
     if (typeof (this.currencySymbol) === 'undefined') {
       this.currencySymbol = this.currencyService.symbol;
     }

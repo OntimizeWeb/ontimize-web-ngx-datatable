@@ -2,12 +2,12 @@ import { Component, OnInit, Inject, forwardRef, EventEmitter, Injector } from '@
 import { OTranslateService } from 'ontimize-web-ng2';
 import { ODataTableComponent } from '../o-datatable.component';
 
-export const DEFAULT_INPUTS_O_TABLE_BUTTON = [
+export const DEFAULT_INPUTS_O_DATATABLE_BUTTON = [
   'icon',
   'olabel: label'
 ];
 
-export const DEFAULT_OUTPUTS_O_TABLE_BUTTON = [
+export const DEFAULT_OUTPUTS_O_DATATABLE_BUTTON = [
   'onClick'
 ];
 
@@ -15,16 +15,16 @@ export const DEFAULT_OUTPUTS_O_TABLE_BUTTON = [
   selector: 'o-datatable-button',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_BUTTON
+    ...DEFAULT_INPUTS_O_DATATABLE_BUTTON
   ],
   outputs: [
-    ...DEFAULT_OUTPUTS_O_TABLE_BUTTON
+    ...DEFAULT_OUTPUTS_O_DATATABLE_BUTTON
   ]
 })
 export class ODataTableButtonComponent implements OnInit {
 
-  public static DEFAULT_INPUTS_O_TABLE_BUTTON = DEFAULT_INPUTS_O_TABLE_BUTTON;
-  public static DEFAULT_OUTPUTS_O_TABLE_BUTTON = DEFAULT_OUTPUTS_O_TABLE_BUTTON;
+  public static DEFAULT_INPUTS_O_DATATABLE_BUTTON = DEFAULT_INPUTS_O_DATATABLE_BUTTON;
+  public static DEFAULT_OUTPUTS_O_DATATABLE_BUTTON = DEFAULT_OUTPUTS_O_DATATABLE_BUTTON;
 
   public onClick: EventEmitter<Object> = new EventEmitter<Object>();
 

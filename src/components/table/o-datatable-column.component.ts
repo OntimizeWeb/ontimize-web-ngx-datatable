@@ -49,7 +49,7 @@ export interface ITableCellEditor {
   getInsertTableValue(): any;
 }
 
-export const DEFAULT_INPUTS_O_TABLE_COLUMN = [
+export const DEFAULT_INPUTS_O_DATATABLE_COLUMN = [
 
   // attr [string]: column name.
   'attr',
@@ -87,20 +87,19 @@ export const DEFAULT_INPUTS_O_TABLE_COLUMN = [
   templateUrl: './o-datatable-column.component.html',
   styleUrls: ['./o-datatable-column.component.scss'],
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_COLUMN,
-    ...ODataTableCellRendererBooleanComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN,
-    ...ODataTableCellRendererCurrencyComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_CURRENCY, // includes Integer and Real
-    ...ODataTableCellRendererDateComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_DATE,
-    ...ODataTableCellRendererImageComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE,
-    ...ODataTableCellRendererActionComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION,
-    ...ODataTableCellEditorDateComponent.DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_DATE,
-    ...ODataTableCellRendererStringComponent.DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_STRING
+    ...DEFAULT_INPUTS_O_DATATABLE_COLUMN,
+    ...ODataTableCellRendererBooleanComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_BOOLEAN,
+    ...ODataTableCellRendererCurrencyComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY, // includes Integer and Real
+    ...ODataTableCellRendererDateComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_DATE,
+    ...ODataTableCellRendererImageComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE,
+    ...ODataTableCellRendererActionComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION,
+    ...ODataTableCellEditorDateComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_EDITOR_DATE,
+    ...ODataTableCellRendererStringComponent.DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_STRING
   ]
 })
 export class ODataTableColumnComponent implements OnInit {
 
-  public static DEFAULT_INPUTS_O_TABLE_COLUMN = DEFAULT_INPUTS_O_TABLE_COLUMN;
-
+  public static DEFAULT_INPUTS_O_DATATABLE_COLUMN = DEFAULT_INPUTS_O_DATATABLE_COLUMN;
   protected static DEFAULT_DATE_MODEL_TYPE = 'timestamp';
   protected static DEFAULT_DATE_MODEL_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
@@ -146,8 +145,10 @@ export class ODataTableColumnComponent implements OnInit {
   public cellData: any;
   public cellElement: any;
 
-  constructor( @Inject(forwardRef(() => ODataTableComponent)) table: ODataTableComponent,
-    protected injector: Injector) {
+  constructor(
+    @Inject(forwardRef(() => ODataTableComponent)) table: ODataTableComponent,
+    protected injector: Injector
+  ) {
     this.table = table;
     this.translateService = this.injector.get(OTranslateService);
     this.momentService = this.injector.get(MomentService);
@@ -156,11 +157,11 @@ export class ODataTableColumnComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.orderable = Util.parseBoolean(this.orderable, true);
-    this.searchable = Util.parseBoolean(this.searchable, true);
     this.editable = (typeof (this.editable) !== 'undefined') ?
       Util.parseBoolean(this.editable, false) :
-      this.table.isColumnEditable(this.attr);
+      this.table.isColumnEditable(this.attr) || (this.editor !== undefined);
+    this.orderable = Util.parseBoolean(this.orderable, true);
+    this.searchable = Util.parseBoolean(this.searchable, true);
     this.grouping = Util.parseBoolean(this.grouping, true);
     this.translate = Util.parseBoolean(this.translate, false);
     if (typeof (this.dateModelType) === 'undefined') {
@@ -275,7 +276,7 @@ export class ODataTableColumnComponent implements OnInit {
     }
     if (this.attr === undefined) {
       let columnIndex = this.table.getColumsNumber();
-      this.generatedAttr = 'o-datatable-column-' + columnIndex;
+      this.generatedAttr = 'o-table-column-' + columnIndex;
     }
     if (this.width && this.width.length && this.width.endsWith('px')) {
       // using width -= 24 because padding-left and right is 24
@@ -301,6 +302,10 @@ export class ODataTableColumnComponent implements OnInit {
     this.renderer = renderer;
   }
 
+  public updateRendererType(rendererType: string) {
+    this.table.updateDataTableOptions(this.attr, rendererType);
+  }
+
   public registerEditor(editor: ITableCellEditor) {
     this.editor = editor;
   }
@@ -315,8 +320,8 @@ export class ODataTableColumnComponent implements OnInit {
     this.renderer.handleCreatedCell(cellElement, rowData);
   }
 
-  public updateCell(cellElement: any, value: any) {
-    this.table.updateCell(cellElement, value);
+  public updateCell(cellElement: any, value: any, sqltypes?: any) {
+    this.table.updateCell(cellElement, value, sqltypes);
   }
 
   public updateRow(cellElement: any, av: any) {

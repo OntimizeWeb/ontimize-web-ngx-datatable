@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 import { NumberService, Util } from 'ontimize-web-ng2';
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER = [
 
   // grouping [no|yes]: grouping thousands. Default: yes.
   'grouping',
@@ -16,18 +16,18 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = [
   selector: 'o-datatable-cell-renderer-integer',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER
   ]
 })
 export class ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER;
 
   protected numberService: NumberService;
   protected grouping: any;
   protected thousandSeparator: string;
 
-  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) protected tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.numberService = this.injector.get(NumberService);
@@ -35,6 +35,7 @@ export class ODataTableCellRendererIntegerComponent implements OnInit, ITableCel
 
   public ngOnInit() {
     this.grouping = Util.parseBoolean(this.grouping, true);
+    this.tableColumn.updateRendererType('integer');
   }
 
   public init(parameters: any) {

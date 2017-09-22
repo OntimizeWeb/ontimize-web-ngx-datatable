@@ -1,13 +1,13 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter } from '@angular/core';
 import { ODataTableComponent } from '../o-datatable.component';
 
-export const DEFAULT_INPUTS_O_TABLE_OPTION = [
+export const DEFAULT_INPUTS_O_DATATABLE_OPTION = [
   'icon',
   'olabel: label',
   'iconPosition: icon-position'
 ];
 
-export const DEFAULT_OUTPUTS_O_TABLE_OPTION = [
+export const DEFAULT_OUTPUTS_O_DATATABLE_OPTION = [
   'onClick'
 ];
 
@@ -15,16 +15,16 @@ export const DEFAULT_OUTPUTS_O_TABLE_OPTION = [
   selector: 'o-datatable-option',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_OPTION
+    ...DEFAULT_INPUTS_O_DATATABLE_OPTION
   ],
   outputs: [
-    ...DEFAULT_OUTPUTS_O_TABLE_OPTION
+    ...DEFAULT_OUTPUTS_O_DATATABLE_OPTION
   ]
 })
 export class ODataTableOptionComponent implements OnInit {
 
-  public static DEFAULT_INPUTS_O_TABLE_OPTION = DEFAULT_INPUTS_O_TABLE_OPTION;
-  public static DEFAULT_OUTPUTS_O_TABLE_OPTION = DEFAULT_OUTPUTS_O_TABLE_OPTION;
+  public static DEFAULT_INPUTS_O_DATATABLE_OPTION = DEFAULT_INPUTS_O_DATATABLE_OPTION;
+  public static DEFAULT_OUTPUTS_O_DATATABLE_OPTION = DEFAULT_OUTPUTS_O_DATATABLE_OPTION;
 
   public onClick: EventEmitter<Object> = new EventEmitter<Object>();
 

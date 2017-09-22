@@ -3,7 +3,7 @@ import { OTranslateService } from 'ontimize-web-ng2';
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION = [
   // action [detail|delete|edit]: action to perform. Default: no value.
   'action',
 
@@ -20,7 +20,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION = [
   'actionTitle : action-title'
 ];
 
-export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = [
+export const DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION = [
   'onClick'
 ];
 
@@ -28,16 +28,16 @@ export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = [
   selector: 'o-datatable-cell-renderer-action',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION
   ],
   outputs: [
-    ...DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION
+    ...DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION
   ]
 })
 export class ODataTableCellRendererActionComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_ACTION;
-  public static DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION = DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_ACTION;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION;
+  public static DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION = DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION;
 
   public static ACTION_DETAIL = 'detail';
   public static ACTION_DELETE = 'delete';
@@ -70,6 +70,7 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
   }
 
   public ngOnInit() {
+    this.tableColumn.updateRendererType('action');
     if ((typeof (this.renderValue) === 'undefined') &&
       ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES.hasOwnProperty(this.action)) {
       this.renderValue = ODataTableCellRendererActionComponent.DEFAULT_RENDER_VALUES[this.action];
@@ -203,5 +204,4 @@ export class ODataTableCellRendererActionComponent implements OnInit, ITableCell
       '</md-icon>';
     return html;
   }
-
 }

@@ -19,8 +19,6 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
   //  Default: no value.
   'valueColumn: value-column',
 
-  'valueColumnType: value-column-type',
-
   // columns [string]: columns of the entity, separated by ';'. Default: no value.
   'columns',
 
@@ -62,7 +60,6 @@ export class ODataTableCellEditorComboComponent implements OnInit, ITableCellEdi
   protected componentData: any;
   protected entity: string;
   protected valueColumn: string;
-  protected valueColumnType: string = 'int';
   protected columns: string;
   protected dataColumns: Array<string>;
   protected visibleColumns: string;
@@ -99,9 +96,6 @@ export class ODataTableCellEditorComboComponent implements OnInit, ITableCellEdi
       }
       if (typeof (parameters.valueColumn) !== 'undefined') {
         this.valueColumn = parameters.valueColumn;
-      }
-      if (typeof (parameters.valueColumnType) !== 'undefined') {
-        this.valueColumnType = parameters.valueColumnType;
       }
       if (typeof (parameters.columns) !== 'undefined') {
         this.columns = parameters.columns;

@@ -2,14 +2,14 @@ import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 
 import {
   ODataTableCellRendererIntegerComponent,
-  DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER
+  DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER
 } from './o-datatable-cell-renderer-integer.component';
 
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL = [
 
-  ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_INTEGER,
+  ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER,
 
   // decimal-separator [string]: decimal separator. Default: dot (.).
   'decimalSeparator: decimal-separator',
@@ -23,15 +23,16 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = [
   selector: 'o-datatable-cell-renderer-real',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL
   ]
 })
 export class ODataTableCellRendererRealComponent extends ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_REAL;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL;
 
   protected decimalSeparator: string;
   protected decimalDigits: number;
+
 
   constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
@@ -40,6 +41,7 @@ export class ODataTableCellRendererRealComponent extends ODataTableCellRendererI
 
   public ngOnInit() {
     super.ngOnInit();
+    this.tableColumn.updateRendererType('real');
   }
 
   public init(parameters: any) {

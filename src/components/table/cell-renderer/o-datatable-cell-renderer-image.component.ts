@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, forwardRef, EventEmitter } from '@angular/co
 import { Util } from 'ontimize-web-ng2';
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE = [
 
   // image-type [base64|url]: image type (extern url or base64). Default: no value.
   'imageType: image-type',
@@ -15,7 +15,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
 
 ];
 
-export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
+export const DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_IMAGE = [
   'onClick'
 ];
 
@@ -23,13 +23,13 @@ export const DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE = [
   selector: 'o-datatable-cell-renderer-image',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE
   ]
 })
 export class ODataTableCellRendererImageComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_IMAGE;
-  public static DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE = DEFAULT_OUTPUTS_O_TABLE_CELL_RENDERER_IMAGE;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE;
+  public static DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_IMAGE = DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_IMAGE;
 
   protected imageType: string;
   protected avatar: any;
@@ -37,12 +37,13 @@ export class ODataTableCellRendererImageComponent implements OnInit, ITableCellR
 
   onClick: EventEmitter<Object> = new EventEmitter<Object>();
 
-  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent) {
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) protected tableColumn: ODataTableColumnComponent) {
     tableColumn.registerRenderer(this);
   }
 
   public ngOnInit() {
     this.avatar = Util.parseBoolean(this.avatar, false);
+    this.tableColumn.updateRendererType('image');
   }
 
   public init(parameters: any) {

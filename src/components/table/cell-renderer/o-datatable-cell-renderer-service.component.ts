@@ -4,7 +4,7 @@ import { OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 import { ODataTableComponent } from '../o-datatable.component';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE = [
 
   // service [string]: JEE service path. Default: no value.
   'service',
@@ -18,8 +18,6 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
   // value-column [string]: value column (similar to 'cod' attribute of ComboReferenceDataField of classic Ontimize Desktop).
   //  Default: no value.
   'valueColumn: value-column',
-
-  'valueColumnType: value-column-type',
 
   // columns [string]: columns of the entity, separated by ';'. Default: no value.
   'columns',
@@ -35,7 +33,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
   selector: 'o-datatable-cell-renderer-service',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE
   ],
   providers: [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
@@ -43,14 +41,13 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = [
 })
 export class ODataTableCellRendererServiceComponent implements OnInit, ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_SERVICE;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE;
 
   protected service: string;
   protected dataService: any;
   protected componentData: any;
   protected entity: string;
   protected valueColumn: string;
-  protected valueColumnType: string = 'int';
   protected columns: string;
   protected dataColumns: Array<string>;
   protected visibleColumns: string;
@@ -58,13 +55,14 @@ export class ODataTableCellRendererServiceComponent implements OnInit, ITableCel
   protected separator: string;
   protected queryMethod: string;
 
-  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) tableColumn: ODataTableColumnComponent,
+  constructor( @Inject(forwardRef(() => ODataTableColumnComponent)) protected tableColumn: ODataTableColumnComponent,
     protected injector: Injector) {
     tableColumn.registerRenderer(this);
     this.componentData = {};
   }
 
   public ngOnInit() {
+    this.tableColumn.updateRendererType('service');
     if (typeof (this.separator) === 'undefined') {
       this.separator = '';
     }
@@ -84,9 +82,6 @@ export class ODataTableCellRendererServiceComponent implements OnInit, ITableCel
       }
       if (typeof (parameters.valueColumn) !== 'undefined') {
         this.valueColumn = parameters.valueColumn;
-      }
-      if (typeof (parameters.valueColumnType) !== 'undefined') {
-        this.valueColumnType = parameters.valueColumnType;
       }
       if (typeof (parameters.columns) !== 'undefined') {
         this.columns = parameters.columns;

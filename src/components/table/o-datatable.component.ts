@@ -33,11 +33,14 @@ import {
   OFormComponent,
   OFormValue,
   OSharedModule,
-  OServiceComponent
+  OServiceComponent,
+  ODateInputModule,
+  OFormModule
 } from 'ontimize-web-ng2';
 
 import { MdMenuTrigger, MdTabGroup, MdTab } from '@angular/material';
 
+import { ODataTableCellEditorDateDialog } from './cell-editor/dialog/o-datatable-cell-editor-date-dialog.component';
 import { ODataTableColumnComponent } from './o-datatable-column.component';
 import {
   ODataTableCellEditorBooleanComponent,
@@ -83,7 +86,7 @@ const TABLE_CHECKBOX_TEMPLATE = `
 
 // import { OServiceComponent } from '../o-service-component.class';
 
-export const DEFAULT_INPUTS_O_TABLE = [
+export const DEFAULT_INPUTS_O_DATATABLE = [
   ...OServiceComponent.DEFAULT_INPUTS_O_SERVICE_COMPONENT,
 
   // insert-method [string]: name of the service method to perform inserts. Default: insert.
@@ -144,7 +147,7 @@ export const DEFAULT_INPUTS_O_TABLE = [
   'paginationControls : pagination-controls'
 ];
 
-export const DEFAULT_OUTPUTS_O_TABLE = [
+export const DEFAULT_OUTPUTS_O_DATATABLE = [
   'onClick'
 ];
 
@@ -166,12 +169,8 @@ export interface ODataTableInitializationOptions {
   providers: [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
   ],
-  inputs: [
-    ...DEFAULT_INPUTS_O_TABLE
-  ],
-  outputs: [
-    ...DEFAULT_OUTPUTS_O_TABLE
-  ],
+  inputs: DEFAULT_INPUTS_O_DATATABLE,
+  outputs: DEFAULT_OUTPUTS_O_DATATABLE,
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class.o-table]': 'true',
@@ -180,9 +179,8 @@ export interface ODataTableInitializationOptions {
 })
 
 export class ODataTableComponent extends OServiceComponent implements OnInit, OnDestroy, OnChanges {
-
-  public static DEFAULT_INPUTS_O_TABLE = DEFAULT_INPUTS_O_TABLE;
-  public static DEFAULT_OUTPUTS_O_TABLE = DEFAULT_OUTPUTS_O_TABLE;
+  public static DEFAULT_INPUTS_O_DATATABLE = DEFAULT_INPUTS_O_DATATABLE;
+  public static DEFAULT_OUTPUTS_O_DATATABLE = DEFAULT_INPUTS_O_DATATABLE;
   public static DEFAULT_DETAIL_ICON = 'search';
 
   public static COLUMNS_SEPARATOR = ';';
@@ -604,7 +602,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected initTableOnInit(columns: any = undefined) {
     var self = this;
 
-    let domOption = 'r<"dataTables_fill_remaining"<"o-datatable-scroll"t>>';
+    let domOption = 'r<"dataTables_fill_remaining"<"o-table-scroll"t>>';
     if (this.paginationControls) {
       domOption += '<"dataTables_pagination_wrapper"pil>';
     }
@@ -645,7 +643,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         /*{
           orderable: false,
           searchable: false,
-          className: 'o-datatable-select-checkbox'
+          className: 'o-table-select-checkbox'
         }*/
       ],
       createdRow: (row, data, dataIndex) => {
@@ -733,7 +731,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           for (let i = settings.aoColumns.length - 1; i >= 0; --i) {
             let colDef = settings.aoColumns[i];
             if (colDef.bVisible) {
-              let tdClass = (i === 0 && this.selectAllCheckbox) ? 'o-datatable-column-select-checkbox' : 'o-datatable-column-insert-table';
+              let tdClass = (i === 0 && this.selectAllCheckbox) ? 'o-table-column-select-checkbox' : 'o-table-column-insert-table';
               insertRow.prepend('<td class=' + tdClass + '></td>');
               if (colDef.editable && (typeof (colDef.component) !== 'undefined') &&
                 (typeof (colDef.component.editor) !== 'undefined')) {
@@ -814,7 +812,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       headerCallback: function (thead, data, start, end, display) {
         if (self.selectAllCheckbox) {
           var checkboxCell = ($(thead) as any).find('th').eq(0);
-          checkboxCell.attr('class', 'o-datatable-column-select-checkbox');
+          checkboxCell.attr('class', 'o-table-column-select-checkbox');
           checkboxCell.html(TABLE_CHECKBOX_TEMPLATE);
           checkboxCell.find('.select-row').attr('id', 'select_all');
         }
@@ -822,7 +820,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     };
 
     if (typeof (columns) !== 'undefined') {
-      // columns defined with 'o-datatable-column' directives
+      // columns defined with 'o-table-column' directives
       for (let i = 0; i < columns.length; ++i) {
         let col = columns[i];
         if ((typeof (col.title) === 'string') && (col.name === col.data)) {
@@ -836,7 +834,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         //     selectAllColumn: true,
         //     searchable: false,
         //     orderable: false,
-        //     className: 'o-datatable-column-select-checkbox',
+        //     className: 'o-table-column-select-checkbox',
         //     render: function (data, type, full, meta) {
         //       return TABLE_CHECKBOX_TEMPLATE;
         //     }
@@ -850,7 +848,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           selectAllColumn: true,
           searchable: false,
           orderable: false,
-          className: 'o-datatable-column-select-checkbox',
+          className: 'o-table-column-select-checkbox',
           render: function (data, type, full, meta) {
             return TABLE_CHECKBOX_TEMPLATE;
           }
@@ -863,7 +861,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           data: col,
           name: col,
           title: this.translateService.get(col),
-          className: 'o-datatable-column',
+          className: 'o-table-column',
           defaultContent: '',
           orderable: true,
           searchable: true,
@@ -1034,11 +1032,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         if (typeof (colDef.component) !== 'undefined') {
           colType = colDef.component.type;
         }
-        // hide datepicker when moving with arrows
-        if ((37 <= key) && (key <= 40) && (typeof (ODataTableCellEditorDateComponent.datePicker) !== 'undefined') && (colType !== 'date')) {
-          ODataTableCellEditorDateComponent.datePicker.datepicker('hide');
-          ODataTableCellEditorDateComponent.datePicker = undefined;
-        }
       }
     });
 
@@ -1188,7 +1181,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       component: column,
       title: this.translateService.get(column.title),
       type: 'string',
-      className: 'o-datatable-column ' + (column.class || '') + ' ',
+      className: 'o-table-column ' + (column.class || '') + ' ',
       defaultContent: '',
       orderable: true,
       searchable: true,
@@ -1204,7 +1197,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
     if (typeof (column.attr) === 'undefined') {
       // column without 'attr' should contain only renderers that do not depend on cell data, but row data (e.g. actions)
-      colDef.className += ' o-datatable-column-action';
+      colDef.className += ' o-table-column-action';
       colDef.orderable = false;
       colDef.searchable = false;
       colDef.name = column.generatedAttr;
@@ -1212,34 +1205,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       // columns with 'attr' are linked to service data
       colDef.data = column.attr;
       colDef.name = column.attr;
-      switch (column.type) {
-        case 'boolean':
-          colDef.className += 'o-datatable-column-boolean';
-          colDef.type = 'string';
-          break;
-        case 'string':
-          colDef.className += 'o-datatable-column-string';
-          colDef.type = 'string';
-          break;
-        case 'integer':
-        case 'real':
-        case 'currency':
-          colDef.className += 'o-datatable-column-number';
-          colDef.type = 'o-number';
-          break;
-        case 'date':
-          colDef.className += 'o-datatable-column-date';
-          colDef.type = 'o-timestamp';
-          break;
-        case 'image':
-          colDef.className += 'o-datatable-column-image';
-          colDef.type = 'string';
-          break;
-        default:
-          colDef.className += 'o-datatable-column-string';
-          colDef.type = 'string';
-          break;
-      }
+      this.setColumnDefTypeAttributes(colDef, column.type);
       colDef.orderable = column.orderable;
       colDef.searchable = column.searchable;
       colDef.editable = column.editable;
@@ -1248,7 +1214,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       }
       colDef.visible = (this.visibleColumnsArray.indexOf(column.attr) !== -1);
     }
-
     //find column definition by name
     if (typeof (column.attr) !== 'undefined') {
       // adding to dataColums for using it in service queries
@@ -1269,7 +1234,50 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     }
   }
 
-  public updateCell(cellElement: any, value: any) {
+  protected setColumnDefTypeAttributes(colDef: any, type: string) {
+    switch (type) {
+      case 'boolean':
+        colDef.className += 'o-table-column-boolean';
+        colDef.type = 'string';
+        break;
+      case 'string':
+        colDef.className += 'o-table-column-string';
+        colDef.type = 'string';
+        break;
+      case 'integer':
+      case 'real':
+      case 'currency':
+        colDef.className += 'o-table-column-number';
+        colDef.type = 'o-number';
+        break;
+      case 'date':
+        colDef.className += 'o-table-column-date';
+        colDef.type = 'o-timestamp';
+        break;
+      case 'image':
+        colDef.className += 'o-table-column-image';
+        colDef.type = 'string';
+        break;
+      default:
+        colDef.className += 'o-table-column-string';
+        colDef.type = 'string';
+        break;
+    }
+  }
+
+  public updateDataTableOptions(columnAttr: string, type: string) {
+    if (type !== undefined && this.dataTableOptions !== undefined && this.dataTableOptions.columns !== undefined) {
+      let columns = this.dataTableOptions.columns;
+      for (let i = 0, len = columns.length; i < len; i++) {
+        if (columns[i].data === columnAttr) {
+          this.setColumnDefTypeAttributes(columns[i], type);
+          break;
+        }
+      }
+    }
+  }
+
+  public updateCell(cellElement: any, value: any, sqltypes?: any) {
     let cell = this.table.cell(cellElement);
     if ((value !== cell.data()) && this.dataService && (this.updateMethod in this.dataService) && this.entity &&
       (this.keysArray.length > 0)) {
@@ -1290,8 +1298,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         let av = {};
         av[colDef.name] = value;
         this.loaderSuscription = this.load();
-        this.dataService[this.updateMethod](kv, av, this.entity)
-          .subscribe(
+        this.dataService[this.updateMethod](kv, av, this.entity, sqltypes).subscribe(
           res => {
             if ((typeof (res.code) === 'undefined') ||
               ((typeof (res.code) !== 'undefined') && (res.code === 0))) {
@@ -1317,7 +1324,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             cell.data(oldValue);
             this.loaderSuscription.unsubscribe();
           }
-          );
+        );
       }
     } else {
       // removing input element
@@ -1509,7 +1516,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox') as any;
       let wasIndeterminate = headerCheckboxCol.hasClass('mat-checkbox-indeterminate');
 
-      headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
+      headerCheckboxCol.attr('class', 'o-table-column-select-checkbox');
       if (val) {
         headerCheckboxCol.addClass('mat-checkbox-checked mat-checkbox-anim-unchecked-checked');
       } else if (wasIndeterminate) {
@@ -1574,7 +1581,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected handleRowCheckboxChange(event: any) {
     let rowEL = ($(event.target) as any).parents('tr:first');
     let checkBoxColumn = rowEL.find('.o-table-column-select-checkbox:first');
-    checkBoxColumn.attr('class', 'o-datatable-column-select-checkbox');
+    checkBoxColumn.attr('class', 'o-table-column-select-checkbox');
 
     let tableRow = this.table.rows(rowEL);
     let rowData = tableRow.data().toArray()[0];
@@ -1592,7 +1599,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         // Set visual state of "Select all" control as 'indeterminate'
         selectAllEL.indeterminate = true;
         let headerCheckboxCol = this.tableHtmlEl.find('th.o-table-column-select-checkbox');
-        headerCheckboxCol.attr('class', 'o-datatable-column-select-checkbox');
+        headerCheckboxCol.attr('class', 'o-table-column-select-checkbox');
         headerCheckboxCol.addClass('mat-checkbox-indeterminate mat-checkbox-anim-checked-indeterminate');
       }
     }
@@ -2305,6 +2312,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     this.table.buttons(buttonName + ':name').trigger();
   }
 
+
   protected getTableButtons() {
     let buttons = [];
     let buttonTextClass = this.showTableButtonsText ? '' : ' hidden-action-text';
@@ -2537,14 +2545,19 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     ODataTableCellEditorRealComponent,
     ODataTableCellEditorStringComponent,
     ODataTableButtonComponent,
-    ODataTableOptionComponent
+    ODataTableOptionComponent,
+    ODataTableCellEditorDateDialog
   ],
   imports: [
     OSharedModule,
     CommonModule,
+    ODateInputModule,
+    OFormModule,
     RouterModule
   ],
-  exports: [ODataTableComponent,
+  entryComponents: [ODataTableCellEditorDateDialog],
+  exports: [
+    ODataTableComponent,
     ODataTableColumnComponent,
     ODataTableCellRendererActionComponent,
     ODataTableCellRendererBooleanComponent,

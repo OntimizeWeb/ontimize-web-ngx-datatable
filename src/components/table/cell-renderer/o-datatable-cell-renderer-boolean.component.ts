@@ -2,7 +2,7 @@ import { Component, Inject, Injector, forwardRef } from '@angular/core';
 import { OTranslateService } from 'ontimize-web-ng2';
 import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
 
-export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = [
+export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_BOOLEAN = [
 
   // true-value-type [string|number|icon|image]: type of value if true. Default: no value.
   'trueValueType: true-value-type',
@@ -24,12 +24,12 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = [
   selector: 'o-datatable-cell-renderer-boolean',
   template: '',
   inputs: [
-    ...DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN
+    ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_BOOLEAN
   ]
 })
 export class ODataTableCellRendererBooleanComponent implements ITableCellRenderer {
 
-  public static DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN = DEFAULT_INPUTS_O_TABLE_CELL_RENDERER_BOOLEAN;
+  public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_BOOLEAN = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_BOOLEAN;
 
   protected translateService: OTranslateService;
   protected trueValueType: string;
