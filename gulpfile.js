@@ -27,12 +27,16 @@ const FILES = [
   'dist'
 ];
 
-gulp.task('copy-files', ['copy-table-files'], (callback) => {
+gulp.task('copy-files', ['copy-table-files', 'copy-table-theme'], (callback) => {
   copyfiles(FILES, true, callback);
 });
 
 gulp.task('copy-table-files', (callback) => {
   copyfiles(['src/components/table/vendor/**/*', 'dist/src/components/'], 2, callback);
+});
+
+gulp.task('copy-table-theme', (callback) => {
+  copyfiles(['src/components/table/o-datatable-theme.scss', 'dist'], true, callback);
 });
 
 gulp.task('copy-table-files-tmp', (callback) => {

@@ -5,7 +5,7 @@ import {
   DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER
 } from './o-datatable-cell-renderer-integer.component';
 
-import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL = [
 
@@ -26,7 +26,7 @@ export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL = [
     ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL
   ]
 })
-export class ODataTableCellRendererRealComponent extends ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererRealComponent extends ODataTableCellRendererIntegerComponent implements OnInit, IDataTableCellRenderer {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL;
 

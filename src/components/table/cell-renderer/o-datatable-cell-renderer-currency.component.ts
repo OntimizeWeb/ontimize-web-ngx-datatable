@@ -5,7 +5,7 @@ import {
   DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_REAL
 } from './o-datatable-cell-renderer-real.component';
 
-import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 import { CurrencyService } from 'ontimize-web-ng2';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY = [
@@ -27,7 +27,7 @@ export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY = [
     ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY
   ]
 })
-export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRendererRealComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererCurrencyComponent extends ODataTableCellRendererRealComponent implements OnInit, IDataTableCellRenderer {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_CURRENCY;
 

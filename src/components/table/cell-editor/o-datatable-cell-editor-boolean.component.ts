@@ -1,6 +1,6 @@
 import { Component, Inject, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper } from 'ontimize-web-ng2';
-import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 
 @Component({
   selector: 'o-datatable-cell-editor-boolean',
@@ -11,7 +11,7 @@ import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-colu
     'onSubmit'
   ]
 })
-export class ODataTableCellEditorBooleanComponent implements ITableCellEditor {
+export class ODataTableCellEditorBooleanComponent implements IDataTableCellEditor {
 
   public onFocus: EventEmitter<any> = new EventEmitter();
   public onBlur: EventEmitter<any> = new EventEmitter();

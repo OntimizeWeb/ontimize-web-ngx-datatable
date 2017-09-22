@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 import { OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
-import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE = [
@@ -39,7 +39,7 @@ export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE = [
     { provide: OntimizeService, useFactory: dataServiceFactory, deps: [Injector] }
   ]
 })
-export class ODataTableCellRendererServiceComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererServiceComponent implements OnInit, IDataTableCellRenderer {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_SERVICE;
 

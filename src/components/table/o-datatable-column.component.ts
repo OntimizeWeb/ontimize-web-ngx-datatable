@@ -28,13 +28,13 @@ import {
   Util
 } from 'ontimize-web-ng2';
 
-export interface ITableCellRenderer {
+export interface IDataTableCellRenderer {
   init(parameters: any);
   render(cellData: any, rowData: any): string;
   handleCreatedCell(cellElement: any, rowData: any);
 }
 
-export interface ITableCellEditor {
+export interface IDataTableCellEditor {
   onFocus: EventEmitter<any>;
   onBlur: EventEmitter<any>;
   onSubmit: EventEmitter<any>;
@@ -109,8 +109,8 @@ export class ODataTableColumnComponent implements OnInit {
   protected numberService: NumberService;
   protected currencyService: CurrencyService;
 
-  protected renderer: ITableCellRenderer = undefined;
-  protected editor: ITableCellEditor = undefined;
+  protected renderer: IDataTableCellRenderer = undefined;
+  protected editor: IDataTableCellEditor = undefined;
 
   public attr: string;
   public title: string;
@@ -298,7 +298,7 @@ export class ODataTableColumnComponent implements OnInit {
     return this.attr || this.generatedAttr;
   }
 
-  public registerRenderer(renderer: ITableCellRenderer) {
+  public registerRenderer(renderer: IDataTableCellRenderer) {
     this.renderer = renderer;
   }
 
@@ -306,7 +306,7 @@ export class ODataTableColumnComponent implements OnInit {
     this.table.updateDataTableOptions(this.attr, rendererType);
   }
 
-  public registerEditor(editor: ITableCellEditor) {
+  public registerEditor(editor: IDataTableCellEditor) {
     this.editor = editor;
   }
 

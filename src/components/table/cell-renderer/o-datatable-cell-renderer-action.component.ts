@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { OTranslateService } from 'ontimize-web-ng2';
-import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION = [
@@ -34,7 +34,7 @@ export const DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION = [
     ...DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION
   ]
 })
-export class ODataTableCellRendererActionComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererActionComponent implements OnInit, IDataTableCellRenderer {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_ACTION;
   public static DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION = DEFAULT_OUTPUTS_O_DATATABLE_CELL_RENDERER_ACTION;

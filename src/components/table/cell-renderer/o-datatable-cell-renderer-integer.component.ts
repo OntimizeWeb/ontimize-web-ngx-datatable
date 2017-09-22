@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Injector, forwardRef } from '@angular/core';
 import { NumberService, Util } from 'ontimize-web-ng2';
-import { ODataTableColumnComponent, ITableCellRenderer } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER = [
 
@@ -19,7 +19,7 @@ export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER = [
     ...DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER
   ]
 })
-export class ODataTableCellRendererIntegerComponent implements OnInit, ITableCellRenderer {
+export class ODataTableCellRendererIntegerComponent implements OnInit, IDataTableCellRenderer {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER = DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_INTEGER;
 

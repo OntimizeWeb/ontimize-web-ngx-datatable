@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { ObservableWrapper, SQLTypes, MomentService } from 'ontimize-web-ng2';
 import * as moment from 'moment';
-import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 import { ODataTableCellEditorDateDialog } from './dialog/o-datatable-cell-editor-date-dialog.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_EDITOR_DATE = [
@@ -28,7 +28,7 @@ export const DEFAULT_INPUTS_O_DATATABLE_CELL_EDITOR_DATE = [
     'onSubmit'
   ]
 })
-export class ODataTableCellEditorDateComponent implements OnInit, ITableCellEditor {
+export class ODataTableCellEditorDateComponent implements OnInit, IDataTableCellEditor {
 
   public static DEFAULT_INPUTS_O_DATATABLE_CELL_EDITOR_DATE = DEFAULT_INPUTS_O_DATATABLE_CELL_EDITOR_DATE;
 

@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { ObservableWrapper, OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
-import { ODataTableColumnComponent, ITableCellEditor } from '../o-datatable-column.component';
+import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
@@ -45,7 +45,7 @@ export const DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = [
     'onSubmit'
   ]
 })
-export class ODataTableCellEditorComboComponent implements OnInit, ITableCellEditor {
+export class ODataTableCellEditorComboComponent implements OnInit, IDataTableCellEditor {
 
   public static DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO = DEFAULT_INPUTS_O_TABLE_CELL_EDITOR_COMBO;
 
