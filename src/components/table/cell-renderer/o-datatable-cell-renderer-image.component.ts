@@ -65,7 +65,7 @@ export class ODataTableCellRendererImageComponent implements OnInit, IDataTableC
     let imageSrc = '';
     switch (this.imageType) {
       case 'base64':
-        imageSrc = cellData ? ('data:image/*;base64,' + ((typeof (cellData.bytes) !== 'undefined') ? cellData.bytes : cellData)) : this.emptyImage;
+        imageSrc = cellData ? ('data:image/png;base64,' + ((typeof (cellData.bytes) !== 'undefined') ? cellData.bytes : cellData)) : this.emptyImage;
         break;
       case 'url':
         imageSrc = cellData ? cellData : this.emptyImage;
