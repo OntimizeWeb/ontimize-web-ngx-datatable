@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-datatable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An implementation of DataTables for Ontimize Web",
   "scripts": {
     "preinstall": "npm config set package-lock false",
@@ -14,7 +14,7 @@
     "webpack:prod": "npm run init-common && webpack --config config/webpack.prod.js --progress && npm run end-common",
     "aot:compile": "node_modules/.bin/ngc -p tsconfig.aot.json",
     "aot": "npm run init-common && npm run aot:compile && npm run end-common",
-    "pack" : "npm run aot && cd dist && npm pack && cd .."
+    "pack": "npm run aot && cd dist && npm pack && cd .."
   },
   "keywords": [
     "angular2",
@@ -41,10 +41,7 @@
     "pdfmake": "^0.1.18"
   },
   "peerDependencies": {
-    "core-js": "^2.4.1",
-    "lodash": "^4.17.4",
-    "rxjs": "^5.4.2",
-    "zone.js": "^0.8.12"
+    "ontimize-web-ng2": ">= 2.0.0-rc.0"
   },
   "devDependencies": {
     "@angular/animations": "4.3.6",
