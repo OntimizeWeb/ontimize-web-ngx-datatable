@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter } from '@angular/core';
-import { Util } from 'ontimize-web-ng2';
+import { Util } from 'ontimize-web-ngx';
 import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_IMAGE = [

@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { OFormComponent } from 'ontimize-web-ng2';
+import { OFormComponent } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'o-datatable-cell-editor-date-dialog',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
-import { OTranslateService } from 'ontimize-web-ng2';
+import { OTranslateService } from 'ontimize-web-ngx';
 import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 

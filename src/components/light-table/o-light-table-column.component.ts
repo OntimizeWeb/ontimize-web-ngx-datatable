@@ -3,7 +3,7 @@ import {
   NgModule,
   ViewEncapsulation
 } from '@angular/core';
-import { MomentService, OSharedModule } from 'ontimize-web-ng2';
+import { MomentService, OSharedModule } from 'ontimize-web-ngx';
 import { OLightTableComponent } from './o-light-table.component';
 import { CommonModule } from '@angular/common';
 

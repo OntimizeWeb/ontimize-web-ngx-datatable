@@ -147,7 +147,7 @@
             line-height: 40px;
             padding: 8px;
             font-feature-settings:'liga'
-            
+
           }
         }
 
@@ -631,6 +631,7 @@
 
             &.o-table-column-action {
               padding: 0 18px 0 18px !important;
+              box-sizing: border-box;
             }
 
             &.o-table-column-action:last-child {

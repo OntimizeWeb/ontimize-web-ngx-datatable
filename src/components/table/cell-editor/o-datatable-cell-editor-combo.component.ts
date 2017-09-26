@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
-import { ObservableWrapper, OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ng2';
+import { ObservableWrapper, OntimizeService, dataServiceFactory, Util } from 'ontimize-web-ngx';
 import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 import { ODataTableComponent } from '../o-datatable.component';
 

@@ -1,5 +1,5 @@
 import { Component, Inject, forwardRef, EventEmitter } from '@angular/core';
-import { ObservableWrapper } from 'ontimize-web-ng2';
+import { ObservableWrapper } from 'ontimize-web-ngx';
 import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 
 @Component({
