@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
-import { ObservableWrapper, SQLTypes, MomentService } from 'ontimize-web-ng2';
+import { ObservableWrapper, SQLTypes, MomentService } from 'ontimize-web-ngx';
 import * as moment from 'moment';
 import { ODataTableColumnComponent, IDataTableCellEditor } from '../o-datatable-column.component';
 import { ODataTableCellEditorDateDialog } from './dialog/o-datatable-cell-editor-date-dialog.component';

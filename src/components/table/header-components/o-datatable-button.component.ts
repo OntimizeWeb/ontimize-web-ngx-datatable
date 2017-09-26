@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, forwardRef, EventEmitter, Injector } from '@angular/core';
-import { OTranslateService } from 'ontimize-web-ng2';
+import { OTranslateService } from 'ontimize-web-ngx';
 import { ODataTableComponent } from '../o-datatable.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_BUTTON = [

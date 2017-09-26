@@ -26,7 +26,7 @@ import {
   NumberService,
   CurrencyService,
   Util
-} from 'ontimize-web-ng2';
+} from 'ontimize-web-ngx';
 
 export interface IDataTableCellRenderer {
   init(parameters: any);

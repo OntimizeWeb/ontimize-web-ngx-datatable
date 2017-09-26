@@ -6,7 +6,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { OLightTableComponent } from './o-light-table.component';
-import { OSharedModule } from 'ontimize-web-ng2';
+import { OSharedModule } from 'ontimize-web-ngx';
 import { CommonModule } from '@angular/common';
 
 @Component({

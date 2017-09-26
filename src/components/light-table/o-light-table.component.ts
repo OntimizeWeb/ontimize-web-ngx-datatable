@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
-import { OntimizeService, DialogService, OFormComponent, InputConverter, Util, ObservableWrapper, OSharedModule } from 'ontimize-web-ng2';
+import { OntimizeService, DialogService, OFormComponent, InputConverter, Util, ObservableWrapper, OSharedModule } from 'ontimize-web-ngx';
 
 import { OLightTableButtonPanelModule } from './o-light-table-button-panel.component';
 import { OLightTableColumnModule, OLightTableColumnComponent } from './o-light-table-column.component';

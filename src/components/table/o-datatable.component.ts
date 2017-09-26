@@ -36,7 +36,7 @@ import {
   OServiceComponent,
   ODateInputModule,
   OFormModule
-} from 'ontimize-web-ng2';
+} from 'ontimize-web-ngx';
 
 import { MdMenuTrigger, MdTabGroup, MdTab } from '@angular/material';
 
@@ -876,7 +876,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           visible: (this.visibleColumnsArray.indexOf(col) !== -1)
         };
         if (this.editOnFocus && colDef.editable) {
-          colDef.className += ' editable';
+          colDef.className += ' editable ';
         }
         this.dataTableOptions.columns.push(colDef);
       }
@@ -1204,7 +1204,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
     if (typeof (column.attr) === 'undefined') {
       // column without 'attr' should contain only renderers that do not depend on cell data, but row data (e.g. actions)
-      colDef.className += ' o-table-column-action';
+      colDef.className += ' o-table-column-action ';
       colDef.orderable = false;
       colDef.searchable = false;
       colDef.name = column.generatedAttr;
@@ -1217,7 +1217,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       colDef.searchable = column.searchable;
       colDef.editable = column.editable;
       if (this.editOnFocus && colDef.editable) {
-        colDef.className += ' editable';
+        colDef.className += ' editable ';
       }
       colDef.visible = (this.visibleColumnsArray.indexOf(column.attr) !== -1);
     }
@@ -1244,29 +1244,29 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected setColumnDefTypeAttributes(colDef: any, type: string) {
     switch (type) {
       case 'boolean':
-        colDef.className += 'o-table-column-boolean';
+        colDef.className += ' o-table-column-boolean ';
         colDef.type = 'string';
         break;
       case 'string':
-        colDef.className += 'o-table-column-string';
+        colDef.className += ' o-table-column-string ';
         colDef.type = 'string';
         break;
       case 'integer':
       case 'real':
       case 'currency':
-        colDef.className += 'o-table-column-number';
+        colDef.className += ' o-table-column-number ';
         colDef.type = 'o-number';
         break;
       case 'date':
-        colDef.className += 'o-table-column-date';
+        colDef.className += ' o-table-column-date ';
         colDef.type = 'o-timestamp';
         break;
       case 'image':
-        colDef.className += 'o-table-column-image';
+        colDef.className += ' o-table-column-image ';
         colDef.type = 'string';
         break;
       default:
-        colDef.className += 'o-table-column-string';
+        colDef.className += ' o-table-column-string ';
         colDef.type = 'string';
         break;
     }

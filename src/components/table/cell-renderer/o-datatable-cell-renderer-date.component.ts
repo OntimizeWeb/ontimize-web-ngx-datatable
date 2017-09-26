@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, forwardRef } from '@angular/core';
-import { MomentService } from 'ontimize-web-ng2';
+import { MomentService } from 'ontimize-web-ngx';
 import { ODataTableColumnComponent, IDataTableCellRenderer } from '../o-datatable-column.component';
 
 export const DEFAULT_INPUTS_O_DATATABLE_CELL_RENDERER_DATE = [
