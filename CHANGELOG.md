@@ -1,5 +1,8 @@
 ## 1.0.1
 
+### PEER-DEPENDENCY UPDATES ###
+* **Updated**:  ontimize-web-ngx@2.0.0
+
 ### Bug Fixes
 * **o-datatable-cell-renderer-image.component**: Fixing rendering bugs.
 
