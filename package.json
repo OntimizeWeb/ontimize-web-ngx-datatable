@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-datatable",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An implementation of DataTables for Ontimize Web",
   "scripts": {
     "preinstall": "npm config set package-lock false",
