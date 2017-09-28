@@ -1,3 +1,12 @@
+## 1.0.2
+
+### Features
+* **styling**: Updating styles for a better rendering in all navigators.
+
+### Bug Fixes
+* **o-datatable**: Fixing scripts imports bug.
+
+
 ## 1.0.1
 
 ### PEER-DEPENDENCY UPDATES ###
