@@ -1,11 +1,27 @@
 import { NgModule } from '@angular/core';
 
-import { ODATATABLE_MODULES } from './src/components';
+import { ODataTableComponentModule } from './src/components/table/o-datatable.component';
+import { OLightTableModule } from './src/components/light-table/o-light-table.component';
+import { OLightTableButtonPanelModule } from './src/components/light-table/o-light-table-button-panel.component';
+import { OLightTableColumnModule } from './src/components/light-table/o-light-table-column.component';
 
-/**
- * Exports
- */
-export * from './src/components';
+export const ODATATABLE_MODULES: any[] = [
+  ODataTableComponentModule,
+  OLightTableModule,
+  OLightTableButtonPanelModule,
+  OLightTableColumnModule
+];
+
+export * from './src/components/light-table/o-light-table.component';
+export * from './src/components/light-table/o-light-table-button-panel.component';
+export * from './src/components/light-table/o-light-table-column.component';
+
+export * from './src/components/table/o-datatable.component';
+export * from './src/components/table/o-datatable-column.component';
+export * from './src/components/table/header-components/header-components';
+export * from './src/components/table/cell-renderer/cell-renderer';
+export * from './src/components/table/cell-editor/cell-editor';
+
 
 @NgModule({
   imports: ODATATABLE_MODULES,
