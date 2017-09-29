@@ -1,3 +1,14 @@
+## 1.0.3
+
+### PEER-DEPENDENCY UPDATES ###
+* **Added**:  jquery@^3.0.0
+
+### BREAKING CHANGES
+* **o-datatable**: '*select-all-checkbox*' input default value is now set to '*false*'.
+
+### Bug Fixes
+* **ODataTableModule**: Fixing exportation bugs
+
 ## 1.0.2
 
 ### Features
