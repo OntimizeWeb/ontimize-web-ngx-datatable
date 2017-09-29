@@ -232,7 +232,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   @InputConverter()
   showTableButtonsText: boolean = true;
   @InputConverter()
-  selectAllCheckbox: boolean = true;
+  selectAllCheckbox: boolean = false;
   @InputConverter()
   singlePageMode: boolean = false;
   @InputConverter()
