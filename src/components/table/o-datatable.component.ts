@@ -19,6 +19,8 @@ import { RouterModule, NavigationStart, RoutesRecognized } from '@angular/router
 import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeAll';
@@ -269,6 +271,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   protected mdTabGroupContainer: MdTabGroup;
   protected mdTabContainer: MdTab;
+  protected mdTabGroupChangeSubscription: Subscription;
 
   protected pendingQuery: boolean = false;
   protected pendingQueryFilter = undefined;
@@ -283,6 +286,8 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   protected storedRecordsIndexes: Array<any> = [];
   protected initialColumnsWidths: Array<any> = [];
+  protected asyncLoadColumns: Array<any> = [];
+  public parentItem: any;
 
   @ViewChild(MdMenuTrigger) menuTrigger: MdMenuTrigger;
   private columnWidthHandlerInterval: any;
@@ -315,21 +320,19 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     this.headerButtons = [];
     this.headerOptions = [];
 
-    this.onRouterNavigateSubscribe = this.router.events.subscribe(
-      route => {
-        if ((typeof (this.oattr) === 'undefined') ||
-          !(route instanceof NavigationStart || route instanceof RoutesRecognized) ||
-          ((route instanceof NavigationStart || route instanceof RoutesRecognized) && (!route.url.startsWith(this.router.url)))) {
-          let localStorageState = localStorage.getItem('DataTables' + '_' + this.oattr + '_' + this.router.url);
-          if (localStorageState) {
-            let state = JSON.parse(localStorageState);
-            delete state.start;
-            delete state.selectedIndex;
-            localStorage.setItem('DataTables' + '_' + this.oattr + '_' + this.router.url, JSON.stringify(state));
-          }
+    this.onRouterNavigateSubscribe = this.router.events.subscribe(route => {
+      if ((typeof (this.oattr) === 'undefined') ||
+        !(route instanceof NavigationStart || route instanceof RoutesRecognized) ||
+        ((route instanceof NavigationStart || route instanceof RoutesRecognized) && (!route.url.startsWith(this.router.url)))) {
+        let localStorageState = localStorage.getItem('DataTables' + '_' + this.oattr + '_' + this.router.url);
+        if (localStorageState) {
+          let state = JSON.parse(localStorageState);
+          delete state.start;
+          delete state.selectedIndex;
+          localStorage.setItem('DataTables' + '_' + this.oattr + '_' + this.router.url, JSON.stringify(state));
         }
       }
-    );
+    });
 
     this.onInsertRowFocusSubscribe = [];
     this.onInsertRowSubmitSubscribe = undefined;
@@ -520,7 +523,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       * table component when attached to DOM.
       */
       var self = this;
-      this.mdTabGroupContainer.selectChange.subscribe((evt) => {
+      this.mdTabGroupChangeSubscription = this.mdTabGroupContainer.selectChange.subscribe((evt) => {
         var interval = setInterval(function () { timerCallback(evt.tab); }, 100);
         function timerCallback(tab: MdTab) {
           if (tab && tab.content.isAttached) {
@@ -547,6 +550,9 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   destroy() {
     super.destroy();
+    if (this.mdTabGroupChangeSubscription) {
+      this.mdTabGroupChangeSubscription.unsubscribe();
+    }
     this.onRouterNavigateSubscribe.unsubscribe();
     for (let i = 0; i < this.onInsertRowFocusSubscribe.length; ++i) {
       this.onInsertRowFocusSubscribe[i].unsubscribe();
@@ -670,6 +676,10 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             }
           }
         });
+
+        if (this.asyncLoadColumns.length) {
+          this.queryRowAsyncData(data, dataIndex);
+        }
       },
       initComplete: (settings) => {
         this.handleColumnWidth(settings);
@@ -906,7 +916,8 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           }
         }
       }
-      if ((typeof (columns) !== 'undefined') && (this.sortColumnsArray.length > 0)) {
+      // (typeof (columns) !== 'undefined')
+      if (this.sortColumnsArray.length > 0) {
         this.dataTableOptions.order = this.sortColumnsArray;
       }
     }
@@ -1220,6 +1231,9 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         colDef.className += ' editable ';
       }
       colDef.visible = (this.visibleColumnsArray.indexOf(column.attr) !== -1);
+      if (column.asyncLoad) {
+        this.asyncLoadColumns.push(column.attr);
+      }
     }
     //find column definition by name
     if (typeof (column.attr) !== 'undefined') {
@@ -1629,7 +1643,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   protected handleDoubleClick(event: any) {
     let item = this.table.row(event.target).data();
-    ObservableWrapper.callEmit(this.onClick, item);
+    ObservableWrapper.callEmit(this.onDoubleClick, item);
     let cellEl = $(this.table.cell(event.target).nodes()) as any;
     cellEl.addClass('noselect');
     if (this.oenabled && (this.detailMode === 'doubleclick') && !cellEl.hasClass('editable')) {
@@ -1804,85 +1818,99 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           this.loaderSuscription.unsubscribe();
         }
         this.loaderSuscription = this.load();
-        let queryArguments = this.getQueryArguments(filter, ovrrArgs);
+        let queryArgs = this.getQueryArguments(filter, ovrrArgs);
         var self = this;
-        this.querySuscription = this.dataService[queryMethodName].apply(this.dataService, queryArguments)
-          .subscribe(
-          res => {
-            let data = undefined;
-            if (Util.isArray(res)) {
-              data = res;
-            } else if ((res.code === 0) && Util.isArray(res.data)) {
-              data = (res.data !== undefined) ? res.data : [];
-              if (self.pageable) {
-                self.updatePaginationInfo(res);
-              }
-            }
-            // set table data
-            if (Util.isArray(data)) {
-              self.dataTable.fnClearTable(false);
-              if (self.pageable) {
-                self.setPaginatedTableData(data, ovrrArgs);
-              } else {
-                self.dataArray = data;
-              }
-
-              if (self.dataArray.length > 0) {
-                self.dataTable.fnAddData(self.dataArray);
-              }
-
-              if (self.table && self.pageable) {
-                let pagesInfo = self.table.page.info();
-                let activePage = pagesInfo.pages > 0 ? (pagesInfo.pages - 1) : 0;
-                if (!self.singlePageMode && ovrrArgs && ovrrArgs.hasOwnProperty('resultRecordsIndex')) {
-                  activePage = Math.floor((ovrrArgs['resultRecordsIndex'] / self.queryRows));
-                }
-                self.table.page(activePage).draw(false);
-                self.updatePaginationFooterText(true);
-              } else {
-                self.dataTable.fnDraw();
-              }
-
-              let emptyRow = $('.dataTables_empty') as any;
-              if (emptyRow.length > 0) {
-                emptyRow.parent().addClass('empty');
-              }
-              // if (typeof (self.state.start) === 'number' && typeof (self.state.length) === 'number') {
-              //   let newPage = Math.ceil(self.state.start / self.state.length);
-              //   if (self.table && newPage !== self.table.page.info().page) {
-              //     self.dataTable.fnPageChange(newPage);
-              //   }
-              // }
-              self.selectedItems = [];
-
-              if (typeof (self.state.selectedIndex) !== 'undefined') {
-                let selectedRow = self.table.rows(self.state.selectedIndex);
-                let selectedRowData = selectedRow.data().toArray()[0];
-                if (self.selectedItems.indexOf(selectedRowData) === -1) {
-                  self.selectedItems.push(selectedRowData);
-                }
-              }
-              self.updateDeleteButtonState();
-            } else {
-              console.log('[ODataTable.queryData]: error code ' + res.code + ' when querying data');
-              self.setDataArray([]);
-              self.dataTable.fnClearTable(true);
-            }
-            self.loaderSuscription.unsubscribe();
+        this.querySuscription = this.dataService[queryMethodName].apply(this.dataService, queryArgs).subscribe(res => {
+          let data = undefined;
+          if (Util.isArray(res)) {
+            data = res;
+          } else if ((res.code === 0) && Util.isArray(res.data)) {
+            data = (res.data !== undefined) ? res.data : [];
             if (self.pageable) {
-              ObservableWrapper.callEmit(self.onPaginatedTableDataLoaded, data);
+              self.updatePaginationInfo(res);
             }
-            ObservableWrapper.callEmit(self.onTableDataLoaded, self.dataArray);
-          },
+          }
+          // set table data
+          if (Util.isArray(data)) {
+            self.dataTable.fnClearTable(false);
+            if (self.pageable) {
+              self.setPaginatedTableData(data, ovrrArgs);
+            } else {
+              self.dataArray = data;
+            }
+
+            if (self.dataArray.length > 0) {
+              self.dataTable.fnAddData(self.dataArray);
+            }
+
+            if (self.table && self.pageable) {
+              let pagesInfo = self.table.page.info();
+              let activePage = pagesInfo.pages > 0 ? (pagesInfo.pages - 1) : 0;
+              if (!self.singlePageMode && ovrrArgs && ovrrArgs.hasOwnProperty('resultRecordsIndex')) {
+                activePage = Math.floor((ovrrArgs['resultRecordsIndex'] / self.queryRows));
+              }
+              self.table.page(activePage).draw(false);
+              self.updatePaginationFooterText(true);
+            } else {
+              self.dataTable.fnDraw();
+            }
+
+            let emptyRow = $('.dataTables_empty') as any;
+            if (emptyRow.length > 0) {
+              emptyRow.parent().addClass('empty');
+            }
+            // if (typeof (self.state.start) === 'number' && typeof (self.state.length) === 'number') {
+            //   let newPage = Math.ceil(self.state.start / self.state.length);
+            //   if (self.table && newPage !== self.table.page.info().page) {
+            //     self.dataTable.fnPageChange(newPage);
+            //   }
+            // }
+            self.selectedItems = [];
+
+            if (typeof (self.state.selectedIndex) !== 'undefined') {
+              let selectedRow = self.table.rows(self.state.selectedIndex);
+              let selectedRowData = selectedRow.data().toArray()[0];
+              if (self.selectedItems.indexOf(selectedRowData) === -1) {
+                self.selectedItems.push(selectedRowData);
+              }
+            }
+            self.updateDeleteButtonState();
+          } else {
+            console.log('[ODataTable.queryData]: error code ' + res.code + ' when querying data');
+            self.setDataArray([]);
+            self.dataTable.fnClearTable(true);
+          }
+          self.loaderSuscription.unsubscribe();
+          if (self.pageable) {
+            ObservableWrapper.callEmit(self.onPaginatedTableDataLoaded, data);
+          }
+          ObservableWrapper.callEmit(self.onTableDataLoaded, self.dataArray);
+        },
           err => {
             console.log('[ODataTable.queryData]: error', err);
             self.setDataArray([]);
             self.dataTable.fnClearTable(true);
             self.loaderSuscription.unsubscribe();
           }
-          );
+        );
       }
     }
+  }
+
+  getAttributesValuesToQuery(): Object {
+    let columns = [];
+    this.colArray.forEach(col => {
+      if (this.asyncLoadColumns.indexOf(col) === -1) {
+        columns.push(col);
+      }
+    });
+    return columns;
+  }
+
+  getQueryArguments(filter: Object, ovrrArgs?: any): Array<any> {
+    let queryArguments = super.getQueryArguments(filter, ovrrArgs);
+    queryArguments[1] = this.getAttributesValuesToQuery();
+    return queryArguments;
   }
 
   protected setPaginatedTableData(data: any, ovrrArgs: any) {
@@ -2496,6 +2524,38 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   public getRowDataFromColumn(tableColumn: ODataTableColumnComponent) {
     if (tableColumn && tableColumn.cellElement) {
       return this.table.row(tableColumn.cellElement).data();
+    }
+  }
+
+  queryRowAsyncData(rowData: any, rowIndex) {
+    let kv = {};
+    for (let k = 0; k < this.keysArray.length; ++k) {
+      let key = this.keysArray[k];
+      kv[key] = rowData[key];
+    }
+    let av = [];
+    for (let i = 0; i < this.asyncLoadColumns.length; i++) {
+      av.push(this.asyncLoadColumns[i]);
+    }
+    const columnQueryArgs = [kv, av, this.entity];
+
+    let queryMethodName = this.pageable ? this.paginatedQueryMethod : this.queryMethod;
+    if (this.dataService && (queryMethodName in this.dataService) && this.entity) {
+      const self = this;
+      this.dataService[queryMethodName].apply(this.dataService, columnQueryArgs).subscribe(res => {
+        if (res.code === 0) {
+          let data = undefined;
+          if (Util.isArray(res.data) && res.data.length === 1) {
+            data = res.data[0];
+          } else if (Util.isObject(res.data)) {
+            data = res.data;
+          }
+          const cellRowRef = self.table.row(rowIndex);
+          var cellRowData = cellRowRef.data();
+          Object.assign(cellRowData, data);
+          cellRowRef.data(cellRowData);
+        }
+      });
     }
   }
 
