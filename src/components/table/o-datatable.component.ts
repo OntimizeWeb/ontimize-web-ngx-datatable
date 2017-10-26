@@ -112,7 +112,7 @@ export const DEFAULT_INPUTS_O_DATATABLE = [
   // quick-filter [no|yes]: show quick filter. Default: yes.
   'quickFilter: quick-filter',
 
-  // delete-button [no|yes]: show delete button. Default: yes.
+  // delete-button [no|yes]: show delete button. Default: no.
   'deleteButton: delete-button',
 
   // refresh-button [no|yes]: show refresh button. Default: yes.
@@ -217,7 +217,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   @InputConverter()
   quickFilter: boolean = true;
   @InputConverter()
-  deleteButton: boolean = true;
+  deleteButton: boolean = false;
   @InputConverter()
   refreshButton: boolean = true;
   @InputConverter()
@@ -287,6 +287,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected storedRecordsIndexes: Array<any> = [];
   protected initialColumnsWidths: Array<any> = [];
   protected asyncLoadColumns: Array<any> = [];
+  protected asyncLoadSubscriptions: Object = {};
   public parentItem: any;
 
   @ViewChild(MdMenuTrigger) menuTrigger: MdMenuTrigger;
@@ -412,6 +413,16 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   extendDataTablesSortMethods() {
     const self = this;
+
+    ($ as any).fn.dataTable.ext.type.order['string-pre'] = function (a) {
+      if (!a) {
+        return '';
+      }
+      let val = typeof a === 'string' ? a.toLowerCase() : !a.toString ? '' : a.toString();
+      val = val.trim();
+      return val;
+    };
+
     let sortMethods = ((($ as any).fn.dataTableExt.oSort) as any);
     if (!sortMethods.hasOwnProperty('o-number-asc')) {
       sortMethods['o-number-asc'] = function (x, y) {
@@ -437,7 +448,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       };
     }
   }
-
 
   reinitialize(options: ODataTableInitializationOptions) {
     super.reinitialize(options);
@@ -560,6 +570,11 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     if (typeof (this.onInsertRowSubmitSubscribe) !== 'undefined') {
       this.onInsertRowSubmitSubscribe.unsubscribe();
     }
+    Object.keys(this.asyncLoadSubscriptions).forEach(idx => {
+      if (this.asyncLoadSubscriptions[idx]) {
+        this.asyncLoadSubscriptions[idx].unsubscribe();
+      }
+    });
   }
 
   public ngAfterViewInit() {
@@ -676,10 +691,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             }
           }
         });
-
-        if (this.asyncLoadColumns.length) {
-          this.queryRowAsyncData(data, dataIndex);
-        }
       },
       initComplete: (settings) => {
         this.handleColumnWidth(settings);
@@ -716,7 +727,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         });
       },
       drawCallback: (settings) => {
-        if (this.groupColumnIndex >= 0) {
+        if (self.groupColumnIndex >= 0) {
           let api = this.dataTable.api();
           let rows = api.rows({ page: 'current' }).nodes();
           let last = null;
@@ -731,7 +742,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             }
           });
         }
-        if (this.insertTable && this.oenabled) {
+        if (self.insertTable && self.oenabled) {
           for (let i = 0; i < this.onInsertRowFocusSubscribe.length; ++i) {
             this.onInsertRowFocusSubscribe[i].unsubscribe();
           }
@@ -770,7 +781,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
                       if (res.insertTable) {
                         let av = this.getAvToInsertFromTableSettings(settings, true);
                         // perform insert
-                        console.log('[ODataTable.initTableOnInit]: insert', av);
+                        console.log('[ODataTable.rowSubmit]: insert', av);
                         this.loaderSuscription = this.load();
                         this.dataService[this.insertMethod](av, this.entity)
                           .subscribe(
@@ -778,15 +789,15 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
                             if ((typeof (res.code) === 'undefined') ||
                               ((typeof (res.code) !== 'undefined') && (res.code === 0))) {
                               this.queryData(this.parentItem);
-                              console.log('[ODataTable.initTableOnInit]: insert ok', res);
+                              console.log('[ODataTable.rowSubmit]: insert ok', res);
                             } else {
-                              console.log('[ODataTable.initTableOnInit]: error', res.code);
+                              console.log('[ODataTable.rowSubmit]: error', res.code);
                               this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
                             }
                             this.loaderSuscription.unsubscribe();
                           },
                           err => {
-                            console.log('[ODataTable.initTableOnInit]: error', err);
+                            console.log('[ODataTable.rowSubmit]: error', err);
                             this.loaderSuscription.unsubscribe();
                             this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
                           }
@@ -824,6 +835,11 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         }
         if (self.pageable && self.dataArray && self.dataArray.length) {
           self.updatePageableTable(!settings._drawHold);
+        }
+        if (self.asyncLoadColumns.length && self.table) {
+          self.table.rows({ page: 'current' }).indexes().each(function (index) {
+            self.queryRowAsyncData(self.table.row(index).data(), index);
+          });
         }
       },
       headerCallback: function (thead, data, start, end, display) {
@@ -1122,6 +1138,13 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       if (self.isProgrammaticChange) {
         return;
       }
+      const dialogBtn = $('.dt-button-collection > .dt-button.buttons-columnVisibility:nth-child(' + (column + 1) + ')');
+      if (state) {
+        dialogBtn.addClass('active');
+      } else {
+        dialogBtn.removeClass('active');
+      }
+
       this.handleColumnWidth(settings);
       this.handleOrderIndex();
       let resizeButton = $('#' + this.oattr + '_wrapper .generic-action-resize') as any;
@@ -2300,7 +2323,13 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         text: this.translateService.get('TABLE.BUTTONS.COLVIS'),
         className: 'generic-action generic-action-view-column',
         collectionLayout: 'fixed',
-        columns: []
+        columns: [],
+        columnText: function (dt, idx, title) {
+          if (!title || title.length === 0) {
+            title = self.translateService.get(self.visibleColumnsArray[idx]);
+          }
+          return title;
+        }
       };
       for (var i = 0; i < this.visibleColumnsArray.length; i++) {
         colVisOptions.columns.push(this.visibleColumnsArray[i] + ':name');
@@ -2515,6 +2544,15 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
 
   public registerHeaderButton(button: ODataTableButtonComponent) {
     this.headerButtons.push(button);
+    if (this.dataTableOptions) {
+      this.dataTableOptions.buttons.push({
+        text: this.translateService.get(button.getLabel()),
+        className: 'custom-generic-action icon-' + button.getIcon() + (this.showTableButtonsText ? '' : ' hidden-action-text'),
+        action: function () {
+          button.innerOnClick();
+        }
+      });
+    }
   }
 
   public registerHeaderOption(option: ODataTableOptionComponent) {
@@ -2542,7 +2580,10 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     let queryMethodName = this.pageable ? this.paginatedQueryMethod : this.queryMethod;
     if (this.dataService && (queryMethodName in this.dataService) && this.entity) {
       const self = this;
-      this.dataService[queryMethodName].apply(this.dataService, columnQueryArgs).subscribe(res => {
+      if (this.asyncLoadSubscriptions[rowIndex]) {
+        this.asyncLoadSubscriptions[rowIndex].unsubscribe();
+      }
+      this.asyncLoadSubscriptions[rowIndex] = this.dataService[queryMethodName].apply(this.dataService, columnQueryArgs).subscribe(res => {
         if (res.code === 0) {
           let data = undefined;
           if (Util.isArray(res.data) && res.data.length === 1) {
