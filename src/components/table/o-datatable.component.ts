@@ -146,7 +146,10 @@ export const DEFAULT_INPUTS_O_DATATABLE = [
   'singlePageMode : single-page-mode',
 
   // pagination-controls [string][yes|no|true|false]
-  'paginationControls : pagination-controls'
+  'paginationControls : pagination-controls',
+
+  // filter-case-sensitive [string][yes|no|true|false] default:no
+  'filterCaseSensitive : filter-case-sensitive'
 ];
 
 export const DEFAULT_OUTPUTS_O_DATATABLE = [
@@ -239,6 +242,8 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   singlePageMode: boolean = false;
   @InputConverter()
   paginationControls: boolean = true;
+  @InputConverter()
+  filterCaseSensitive: boolean = false;
   /* End of Inputs */
 
   /*parsed inputs variables */
@@ -667,13 +672,10 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       },
       language: this.getLanguageLabels(),
       keys: true,
-      columns: [
-        /*{
-          orderable: false,
-          searchable: false,
-          className: 'o-table-select-checkbox'
-        }*/
-      ],
+      columns: [],
+      search: {
+        bCaseInsensitive: !this.filterCaseSensitive
+      },
       createdRow: (row, data, dataIndex) => {
         let tr = $(row) as any;
         tr.children().each(function (i, e) {
