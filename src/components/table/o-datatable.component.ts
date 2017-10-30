@@ -293,6 +293,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected initialColumnsWidths: Array<any> = [];
   protected asyncLoadColumns: Array<any> = [];
   protected asyncLoadSubscriptions: Object = {};
+  protected pendingOnLanguageChangeCallback: boolean = false;
   public parentItem: any;
 
   @ViewChild(MdMenuTrigger) menuTrigger: MdMenuTrigger;
@@ -350,6 +351,8 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       if (this.queryOnBind) {
         this.queryData(this.parentItem);
       }
+    } else if (this.mdTabContainer !== undefined) {
+      this.pendingOnLanguageChangeCallback = true;
     }
   }
 
@@ -547,7 +550,15 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           if (tab && tab.content.isAttached) {
             clearInterval(interval);
             if (tab === self.mdTabContainer) {
-              if (self.table === undefined) {
+              if (self.table && self.pendingOnLanguageChangeCallback) {
+                self.pendingOnLanguageChangeCallback = false;
+                self.table.destroy();
+                self.dataTable.children().remove();
+                self.reinitializeTable();
+                if (self.queryOnBind) {
+                  self.queryData(self.parentItem);
+                }
+              } else if (self.table === undefined) {
                 self.reinitializeTable();
               }
               if (self.pendingQuery) {
@@ -556,7 +567,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             }
           }
         }
-
       });
     }
     this.initTableOnInit();
