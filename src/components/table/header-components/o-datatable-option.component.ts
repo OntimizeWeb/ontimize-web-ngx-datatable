@@ -45,6 +45,9 @@ export class ODataTableOptionComponent implements OnInit {
   }
 
   innerOnClick(event: any) {
+    if (event && this.table) {
+      this.table.toggleButtonActiveClass(event);
+    }
     this.onClick.emit(event);
   }
 

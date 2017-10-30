@@ -6,9 +6,6 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-
-
-
   .o-table {
     input[type="checkbox" ]:focus {
       outline: none;
@@ -311,11 +308,19 @@
     }
 
     .JCLRgripDrag {
-      border-width: 1px !important;
-      border-style: solid !important;
-      border-color:  mat-color($foreground, divider) !important;
+      border: none;
     }
 
+    .JCLRgrip .JColResizer {
+      opacity: 1;
+      width: 3px;
+      background-color: mat-color($foreground, divider);
+    }
+
+  }
+
+  .o-table-option-active {
+    background: mat-color($foreground, divider);
   }
 
   div.dt-button-collection {

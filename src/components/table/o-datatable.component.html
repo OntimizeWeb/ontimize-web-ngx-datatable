@@ -22,8 +22,8 @@
       <button *ngIf="exportButton || showExportOptions" (click)="exportAction('pdf')" md-menu-item> {{ 'TABLE.BUTTONS.PDF' | oTranslate }} </button>
 
 
-      <button *ngIf="columnsGroupButton" md-menu-item (click)="columnsGroupButtonAction()"> {{ 'TABLE.BUTTONS.GROUP_ROWS' | oTranslate }} </button>
-      <button *ngIf="columnsResizeButton" md-menu-item (click)="columnsResizeButtonAction()"> {{ 'TABLE.BUTTONS.RESIZE_COLUMNS' | oTranslate }} </button>
+      <button *ngIf="columnsGroupButton" md-menu-item (click)="columnsGroupButtonAction($event)"> {{ 'TABLE.BUTTONS.GROUP_ROWS' | oTranslate }} </button>
+      <button *ngIf="columnsResizeButton" md-menu-item (click)="columnsResizeButtonAction($event)"> {{ 'TABLE.BUTTONS.RESIZE_COLUMNS' | oTranslate }} </button>
       <button *ngIf="columnsVisibilityButton" md-menu-item (click)="columnsVisibilityButtonAction()"> {{ 'TABLE.BUTTONS.COLVIS' | oTranslate }} </button>
 
       <button md-menu-item *ngFor="let option of headerOptions" (click)="option.innerOnClick($event)">

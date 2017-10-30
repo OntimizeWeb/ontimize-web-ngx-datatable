@@ -208,6 +208,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   ];
   public static ROW_BUTTON_DETAIL = 'DETAIL';
   public static ROW_BUTTON_DELETE = 'DELETE';
+  public static O_DATATABLE_OPTION_ACTIVE_CLASS = 'o-table-option-active';
 
   /* Inputs */
   protected insertMethod: string;
@@ -1693,6 +1694,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected initColumnResize() {
 
     if (typeof (this.tableHtmlEl) !== 'undefined') {
+      let self = this;
       let disabledResizeColumns = [];
 
       if (this.selectAllCheckbox) {
@@ -1723,10 +1725,12 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         postbackSafe: false,
         partialRefresh: true,
         minWidth: 50,
-        disabledColumns: disabledResizeColumns
-        // onResize: (e) => {
-        // }*/
+        disabledColumns: disabledResizeColumns,
+        onResize: (e) => {
+          self.tableHtmlEl.siblings('.JCLRgrips').find('> .JCLRgrip').height(self.tableHtmlEl.outerHeight(true));
+        }
       });
+      this.tableHtmlEl.siblings('.JCLRgrips').find('> .JCLRgrip').height(this.tableHtmlEl.outerHeight(true));
     }
   }
 
@@ -2358,7 +2362,10 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     this.showExportOptions = !this.showExportOptions;
   }
 
-  protected columnsGroupButtonAction() {
+  protected columnsGroupButtonAction(event?) {
+    if (event) {
+      this.toggleButtonActiveClass(event);
+    }
     let header = this.tableHtmlEl.find('th');
     let groupButton = $('#' + this.oattr + '_wrapper .generic-action-group') as any;
     if (groupButton.hasClass('active')) {
@@ -2372,7 +2379,10 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
     }
   }
 
-  protected columnsResizeButtonAction() {
+  protected columnsResizeButtonAction(event?) {
+    if (event) {
+      this.toggleButtonActiveClass(event);
+    }
     let resizeButton = $('#' + this.oattr + '_wrapper .generic-action-resize') as any;
     if (resizeButton.hasClass('active')) {
       resizeButton.removeClass('active');
@@ -2390,7 +2400,6 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   protected exportAction(buttonName: string) {
     this.table.buttons(buttonName + ':name').trigger();
   }
-
 
   protected getTableButtons() {
     let buttons = [];
@@ -2612,6 +2621,18 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           cellRowRef.data(cellRowData);
         }
       });
+    }
+  }
+
+  public toggleButtonActiveClass(event) {
+    if (!event.currentTarget) {
+      return;
+    }
+    let classList = event.currentTarget.classList;
+    if (classList.contains(ODataTableComponent.O_DATATABLE_OPTION_ACTIVE_CLASS)) {
+      classList.remove(ODataTableComponent.O_DATATABLE_OPTION_ACTIVE_CLASS);
+    } else {
+      classList.add(ODataTableComponent.O_DATATABLE_OPTION_ACTIVE_CLASS);
     }
   }
 
