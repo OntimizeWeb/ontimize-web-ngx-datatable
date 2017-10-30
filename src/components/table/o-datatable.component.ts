@@ -347,6 +347,9 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
   onLanguageChangeCallback(res: any) {
     if (this.mdTabContainer === undefined || this.mdTabContainer.content.isAttached) {
       this.reinitializeTable();
+      if (this.queryOnBind) {
+        this.queryData(this.parentItem);
+      }
     }
   }
 
