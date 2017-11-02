@@ -1,4 +1,18 @@
-## 1.0.3
+## 1.0.4
+
+### Features
+* **o-datatable**: adding '*filter-case-sensitive*' input (default value = true) ([#1](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/1)) ([6ad03fa](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/6ad03fa)
+* **o-datatable-column**: adding '*async-load*' input (default value = false) ([5c1bc02](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/5c1bc02))
+
+### Bugs
+* **o-datatable-column**: fixing language change bug inside tab ([#5](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/5)) ([481a2c0](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/481a2c0))
+* **o-datatable-column**: fixing sorting bug ([#6](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/6)) ([8b16a1e](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/8b16a1e))
+* **o-datatable**: fixing data reloading bug inside tab when locale changes ([#7](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/7)) ([2e1984b](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/2e1984b))
+* **o-datatable-option**: setting a background to active option ([#8](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/8)) ([e0e05e1](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/e0e05e1))
+* **o-datatable-button**: fixing button creation bug.
+* **o-datatable**: fixing columns visibility dialog bugs.
+
+## 1.0.3 (2017-09-29)
 
 ### PEER-DEPENDENCY UPDATES ###
 * **Added**:  jquery@^3.0.0
@@ -9,7 +23,7 @@
 ### Bug Fixes
 * **ODataTableModule**: Fixing exportation bugs
 
-## 1.0.2
+## 1.0.2 (2017-09-28)
 
 ### Features
 * **styling**: Updating styles for a better rendering in all navigators.
@@ -18,7 +32,7 @@
 * **o-datatable**: Fixing scripts imports bug.
 
 
-## 1.0.1
+## 1.0.1 (2017-09-26)
 
 ### PEER-DEPENDENCY UPDATES ###
 * **Updated**:  ontimize-web-ngx@2.0.0
@@ -26,7 +40,7 @@
 ### Bug Fixes
 * **o-datatable-cell-renderer-image.component**: Fixing rendering bugs.
 
-## 1.0.0
+## 1.0.0 (2017-09-25)
 
 ### Features
 * **ontimize-web-ngx-datatable:** first '*ODataTableModule*' version.

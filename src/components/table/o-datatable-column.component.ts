@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject, Injector, forwardRef, EventEmitter } from '@angular/core';
-
 import { ODataTableComponent } from './o-datatable.component';
 
 import {
@@ -79,7 +78,9 @@ export const DEFAULT_INPUTS_O_DATATABLE_COLUMN = [
 
   'width',
 
-  'class'
+  'class',
+
+  'asyncLoad : async-load'
 ];
 
 @Component({
@@ -141,6 +142,7 @@ export class ODataTableColumnComponent implements OnInit {
   public generatedAttr: string;
   public width: string;
   public class: string;
+  public asyncLoad: any;
 
   public cellData: any;
   public cellElement: any;
@@ -164,6 +166,8 @@ export class ODataTableColumnComponent implements OnInit {
     this.searchable = Util.parseBoolean(this.searchable, true);
     this.grouping = Util.parseBoolean(this.grouping, true);
     this.translate = Util.parseBoolean(this.translate, false);
+    this.asyncLoad = Util.parseBoolean(this.asyncLoad, false);
+
     if (typeof (this.dateModelType) === 'undefined') {
       this.dateModelType = ODataTableColumnComponent.DEFAULT_DATE_MODEL_TYPE;
       this.dateModelType = ODataTableCellEditorDateComponent.DEFAULT_DATE_MODEL_TYPE;
