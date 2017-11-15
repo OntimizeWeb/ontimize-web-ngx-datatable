@@ -484,8 +484,14 @@
         thead tr {
           height: 32px;
         }
-        tbody tr {
-          height: 28px;
+        tbody {
+          td .image-avatar {
+            width: 20px;
+            height: 20px;
+          }
+          tr {
+            height: 28px;
+          }
         }
       }
 
@@ -493,8 +499,14 @@
         thead tr {
           height: 40px;
         }
-        tbody tr {
-          height: 36px;
+        tbody {
+          td .image-avatar {
+            width: 28px;
+            height: 28px;
+          }
+          tr {
+            height: 36px;
+          }
         }
       }
 
@@ -543,11 +555,11 @@
             }
 
             &:first-child:not(.o-table-column-select-checkbox) {
-              padding: 0 42px 0 54px !important;
+              padding: 0 24px 0 24px !important;
             }
 
             &:first-child.o-table-column-select-checkbox {
-              padding:0 12px 0 12px !important
+              padding: 0 12px 0 12px !important
             }
 
             &:nth-child(2) {
@@ -768,7 +780,7 @@
           }
 
           &:first-child:not(.o-table-column-action):not(.o-table-column-select-checkbox) {
-            padding: 0 42px 0 54px !important;
+            padding: 0 7px 0 7px !important;
           }
 
           &:nth-child(2):not(.o-table-column-action) {
