@@ -1,4 +1,8 @@
-## 1.0.4
+## 1.0.5 (2017-11-15)
+### Features
+* **styles**: Updating components styles ([679304e](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/679304e))
+
+## 1.0.4 (2017-11-02)
 
 ### Features
 * **o-datatable**: adding '*filter-case-sensitive*' input (default value = true) ([#1](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/1)) ([6ad03fa](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/6ad03fa)
