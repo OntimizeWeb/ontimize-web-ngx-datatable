@@ -815,7 +815,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
                           err => {
                             console.log('[ODataTable.rowSubmit]: error', err);
                             this.loaderSuscription.unsubscribe();
-                            this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
+                            this.postIncorrectInsert(err);
                           }
                           );
 
@@ -954,6 +954,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
       }
     }
   }
+
 
   getColumsNumber(): number {
     return this.dataTableOptions.columns.length;
@@ -1380,7 +1381,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
           },
           err => {
             console.log('[ODataTable.updateCell]: error', err);
-            this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
+            this.postIncorrectUpdate(err);
             cell.data(oldValue);
             this.loaderSuscription.unsubscribe();
           }
@@ -1416,7 +1417,7 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
         },
         err => {
           console.log('[ODataTable.updateRow]: error', err);
-          this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
+          this.postIncorrectUpdate(err);
           this.loaderSuscription.unsubscribe();
         }
         );
@@ -1933,9 +1934,42 @@ export class ODataTableComponent extends OServiceComponent implements OnInit, On
             self.setDataArray([]);
             self.dataTable.fnClearTable(true);
             self.loaderSuscription.unsubscribe();
+            self.postIncorrectQuery(err);
+
           }
         );
       }
+    }
+  }
+
+  protected postIncorrectQuery(result: any) {
+    if (result) {
+      this.dialogService.alert('ERROR', result);
+    } else {
+      this.dialogService.alert('ERROR', 'MESSAGES.ERROR_QUERY');
+    }
+  }
+
+  protected postIncorrectDelete(result: any) {
+    if (result && typeof result !== 'object') {
+      this.dialogService.alert('ERROR', result);
+    } else {
+      this.dialogService.alert('ERROR', 'MESSAGES.ERROR_DELETE');
+    }
+  }
+  protected postIncorrectUpdate(result: any) {
+    if (result && typeof result !== 'object') {
+      this.dialogService.alert('ERROR', result);
+    } else {
+      this.dialogService.alert('ERROR', 'MESSAGES.ERROR_UPDATE');
+    }
+  }
+
+  protected postIncorrectInsert(result: any) {
+    if (result && typeof result !== 'object') {
+      this.dialogService.alert('ERROR', result);
+    } else {
+      this.dialogService.alert('ERROR', 'MESSAGES.ERROR_INSERT');
     }
   }
 
