@@ -1,3 +1,9 @@
+## 1.0.6 (2018-01-18)
+### Bug Fixes
+* **styles**: Updating components styles and fixing bugs ([#11](https://github.com/OntimizeWeb/ontimize-web-ng2/issues/11)) ([0c7e4a4](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/0c7e4a4)) ([0c7e4a4](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/0c7e4a4))
+* **o-datatable**: Fixed bug when showing server messages ([bceae37](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/bceae37))
+
+
 ## 1.0.5 (2017-11-15)
 ### Features
 * **styles**: Updating components styles ([679304e](https://github.com/OntimizeWeb/ontimize-web-ng2/commit/679304e))
