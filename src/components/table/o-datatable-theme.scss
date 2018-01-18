@@ -33,35 +33,28 @@
         }
       }
 
-      .dt-buttons {
+      .dt-buttons .dt-button {
+        color: mat-color($foreground, secondary-text);
 
-        a {
+        &:not(.hidden-action-text):not(.disabled):hover {
+          background-color: mat-color($background, hover);
+        }
+
+        &.hidden-action-text:not(.disabled):hover {
+          background-color: mat-color($background, hover);
+        }
+
+        &.active {
           color: mat-color($foreground, secondary-text);
-        }
-        a:not(.hidden-action-text):not(.disabled):hover {
-          background-color: mat-color($background, hover);
-        }
 
-        a.hidden-action-text:not(.disabled):hover {
-          background-color: mat-color($background, hover);
-        }
-
-        .dt-button {
-
-          &.active {
-            color: mat-color($foreground, secondary-text);
-
-            &::after {
-              background: #eee;
-            }
+          &::after {
+            background: #eee;
           }
-
-          &.disabled {
-            color: mat-color($background, disabled-button);
-          }
-
         }
 
+        &.disabled {
+          color: mat-color($background, disabled-button);
+        }
       }
 
       .dataTables_filter {
