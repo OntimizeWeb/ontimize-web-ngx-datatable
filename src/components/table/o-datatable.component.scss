@@ -100,7 +100,7 @@
 
       margin: 0 10px 0 4px;
 
-      a {
+      .dt-button {
         text-decoration: none;
         outline: none;
         cursor: pointer;
@@ -108,20 +108,13 @@
         display: inline-block;
         margin: 0;
 
-      }
-      a:not(.hidden-action-text) {
-        padding-right: 8px;
-      }
-      a:not(.hidden-action-text):not(.disabled):hover {
-        border-radius: 4px;
-      }
+        &:not(.hidden-action-text) {
+          padding-right: 8px;
+        }
 
-      a.hidden-action-text:not(.disabled):hover {
-        border-radius: 50%;
-        //padding: 0;
-      }
-
-      .dt-button {
+        &:not(.hidden-action-text):not(.disabled):hover {
+          border-radius: 4px;
+        }
 
         &.active {
 
